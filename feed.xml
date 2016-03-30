@@ -3,10 +3,10 @@
   <channel>
     <title>CS 118 Notes</title>
     <description></description>
-    <link>http://jacobnisnevich.github.iocs118-notes/</link>
-    <atom:link href="http://jacobnisnevich.github.iocs118-notes/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 29 Mar 2016 23:04:16 -0700</pubDate>
-    <lastBuildDate>Tue, 29 Mar 2016 23:04:16 -0700</lastBuildDate>
+    <link>http://jacobnisnevich.github.io/cs118-notes/</link>
+    <atom:link href="http://jacobnisnevich.github.io/cs118-notes/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 29 Mar 2016 23:12:47 -0700</pubDate>
+    <lastBuildDate>Tue, 29 Mar 2016 23:12:47 -0700</lastBuildDate>
     <generator>Jekyll v3.0.3</generator>
     
       <item>
@@ -392,8 +392,8 @@ ow
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 29 Mar 2016 22:26:00 -0700</pubDate>
-        <link>http://jacobnisnevich.github.iocs118-notes/2016/03/29/lecture_1.html</link>
-        <guid isPermaLink="true">http://jacobnisnevich.github.iocs118-notes/2016/03/29/lecture_1.html</guid>
+        <link>http://jacobnisnevich.github.io/cs118-notes/2016/03/29/lecture_1.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/cs118-notes/2016/03/29/lecture_1.html</guid>
         
         
       </item>
