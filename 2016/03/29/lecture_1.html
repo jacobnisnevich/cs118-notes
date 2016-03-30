@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lecture 1</title>
+  <meta name="description" content="What is a computer network?  IP protocol, etc">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://jacobnisnevich.github.io/2016/03/29/lecture_1.html">
+  <link rel="alternate" type="application/rss+xml" title="CS 118 Notes" href="http://jacobnisnevich.github.io/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">CS 118 Notes</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Lecture 1</h1>
+    <p class="post-meta"><time datetime="2016-03-29T22:26:00-07:00" itemprop="datePublished">Mar 29, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="what-is-a-computer-network">What is a computer network?</h3>
+<ul>
+  <li>IP protocol, etc</li>
+</ul>
+
+<h3 id="cs-118-explain-to-you-how-internet-works">CS 118: Explain to you how internet works</h3>
+<ul>
+  <li>Divide-and-conquer
+    <ul>
+      <li>Internet: a very large and complex system</li>
+      <li>First: figure out many major parts</li>
+      <li>Then: learn one part at a time</li>
+    </ul>
+  </li>
+  <li>Your job:
+    <ul>
+      <li>Read the textbook, think through</li>
+      <li>Ask questions</li>
+      <li>Practice from doing your homeworks and projects</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="course-workload">Course Workload</h3>
+<ul>
+  <li>Weekly reading assigmments (starting today)</li>
+  <li>Weekly homework assignments
+    <ul>
+      <li>Available from CCLE every Thursady starting this week, due the following
+Wednesday</li>
+    </ul>
+  </li>
+  <li>Two programming Projects
+    <ul>
+      <li>Work in a team (up to 3 people in each time)</li>
+    </ul>
+  </li>
+  <li>Midterm: Thursday, April 28 (in class)</li>
+  <li>Final: Monday, June 6, 2016, 6:30pm - 9:30pm</li>
+</ul>
+
+<h3 id="course-grading">Course Grading</h3>
+<ul>
+  <li>16% Weekly homework assigments (8 total)</li>
+  <li>40% for 2 programming projects
+    <ul>
+      <li>1st: 20%, 2nd 20%</li>
+    </ul>
+  </li>
+  <li>22% Midterm exam</li>
+  <li>22% Final exam</li>
+</ul>
+
+<h3 id="strict-grading-policy">Strict Grading Policy</h3>
+<ul>
+  <li>No credit for late homework or projects</li>
+</ul>
+
+<h3 id="first-step-big-picture--terminology">First step: Big Picture &amp; Terminology</h3>
+<ul>
+  <li>Millions of connected computing devices
+    <ul>
+      <li>hosts = end systems</li>
+      <li>running network apps</li>
+    </ul>
+  </li>
+  <li>Communication links
+    <ul>
+      <li>fiber, copper, radio, satellite</li>
+      <li>transmission rate: <em>bandiwdth</em></li>
+    </ul>
+  </li>
+  <li>Packet switches: forward packets (chunks of data)
+    <ul>
+      <li><em>routers</em> and <em>switches</em></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="nuts-and-bolts-view">“Nuts and Bolts” view</h3>
+<ul>
+  <li>Internet: “network of networks”
+    <ul>
+      <li>Interconnected ISPs</li>
+    </ul>
+  </li>
+  <li>Protocols control sending, receiving of msgs
+    <ul>
+      <li>e.g., TCP, IP, HTTP, Skype, 802.11</li>
+    </ul>
+  </li>
+  <li>Internet standards
+    <ul>
+      <li>RFC: request for comments</li>
+      <li>IETF: Internet Engineering Task Force</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="applications-view-of-networking">Application’s View of Networking</h3>
+<ul>
+  <li>Web browser &lt;——- Internet ——-&gt; Web server</li>
+  <li>These are application programms</li>
+  <li>They talk to each other using application protocols (for web, protocol = HTTP)</li>
+  <li>Don’t know or care how data is sent; do care whether it is delivered reliably</li>
+  <li>Runs on top of transport protocols</li>
+</ul>
+
+<h3 id="whats-a-protocol">What’s a Protocol</h3>
+<ul>
+  <li><em>Human protocols</em>
+    <ul>
+      <li>“what’s the time”</li>
+      <li>“I have a question”</li>
+      <li>introductions</li>
+    </ul>
+  </li>
+  <li><em>Network protocols</em>
+    <ul>
+      <li>Machines rather than humans</li>
+      <li>All communication activity in Internet govered by protocols</li>
+    </ul>
+  </li>
+  <li>Protocols define format, order of messages sent and received among network entities, and actions taken on message transmission, receipt</li>
+  <li>… specific messages sent</li>
+  <li>… specific actions taken when messages received or other events</li>
+  <li>Network protocol
+    <ul>
+      <li>TCP connection request –&gt; TCP connection response –&gt; GET http://www.google.com –&gt; <file> --&gt;</file></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="application-layer-protocols">Application Layer Protocols</h3>
+<ul>
+  <li>Covered in chapter 2 of the book</li>
+  <li>Basic objective: understand common application protocols:
+    <ul>
+      <li>Web: Hyper-Text Transfer Protocol (HTTP)</li>
+      <li>Email: Simple Mail Transport Protocol (SMTP)</li>
+      <li>Domain Name System (DNS)</li>
+    </ul>
+  </li>
+  <li>More important objective: design issues
+    <ul>
+      <li>What kinds of services required from the network</li>
+      <li>How does the choice of services impact application design?</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="transport-view-of-networking">Transport View of Networking</h3>
+<ul>
+  <li>Assuming <strong>application protocols</strong> take care of <strong>data content</strong></li>
+  <li>Transport protocol’s job: delivering data between communicating ends</li>
+  <li><em>Don’t know or care bout which paths data may traverse through the network</em></li>
+  <li>Do care about:
+    <ol>
+      <li>Delivering data to the right application process</li>
+      <li>Delivery reliability</li>
+      <li>Congestion control</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="transport-layer-protocols">Transport Layer Protocols</h3>
+<ul>
+  <li>Unreliable data delivery: UDP (User Datagram Protocol)</li>
+  <li>Reliable data delivery: TCP (Transport Control Protocol)
+    <ul>
+      <li>Reliable delivery over potentially unreliable network</li>
+      <li>Understanding and managin network delays</li>
+      <li>Coping with congetstion</li>
+    </ul>
+  </li>
+  <li>But transport protocols don’t really do the delivery</li>
+</ul>
+
+<h3 id="network-layers-view-of-the-picture">Network Layer’s view of the picture</h3>
+<ul>
+  <li>Assuming higher layer protocols handle data content, reliability and congestionm</li>
+  <li>Network’s job: forward data from source to destination</li>
+  <li>Do care about: which way to forward data at each step?</li>
+  <li>Why is this hard?  <strong>Because the Internet is huge!</strong></li>
+</ul>
+
+<h3 id="internet-connectivity">Internet Connectivity</h3>
+<ul>
+  <li>Consider the connection from laptop to CNN.com:
+    <ul>
+      <li>Wi-Fi -&gt; campus backbone -&gt; ISP -&gt; other ISP -&gt; CNN website</li>
+    </ul>
+  </li>
+  <li>Access Networks
+    <ul>
+      <li>Connect end system to local network</li>
+      <li>Some local network router connects to ISP router</li>
+    </ul>
+  </li>
+  <li>ISP interconnect with each other to form the Internet</li>
+</ul>
+
+<h3 id="network-layer-protocols">Network Layer PRotocols</h3>
+<ul>
+  <li>Covered in Chapter 4 of the textbook</li>
+  <li>There are different types of networks
+    <ul>
+      <li><strong>Circuit</strong>-switched versus <strong>packet</strong>-switched</li>
+    </ul>
+  </li>
+  <li>Internet: packet-switched networks
+    <ul>
+      <li>Network layer provides best effort delivery of packets</li>
+    </ul>
+  </li>
+  <li>Don’t care exactly how a packet is delivered from one node to next
+    <ul>
+      <li>That’s the job for link layer protocls</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="link-layer-protocols">Link layer protocols</h3>
+<ul>
+  <li>Link can be twisted pair, coaxial cable, fiber optic, or wireless</li>
+  <li>Link layer job: get a packet sent across some medium
+    <ul>
+      <li>Different medium -&gt; different link layer protocol</li>
+    </ul>
+  </li>
+  <li>Covered in Chapter 5 and 6.1 - 6.3 of the text
+    <ul>
+      <li>Borders on Electrical Engineering: running on top of physical layer</li>
+    </ul>
+  </li>
+  <li>Our objective is to understand technology
+    <ul>
+      <li>How the network is built</li>
+      <li>How do link layer features impact higher layers design</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="internet-protocol-stack">Internet Protocol Stack</h3>
+<ul>
+  <li>Application layer</li>
+  <li>Transport layer</li>
+  <li>Network layer</li>
+  <li>Link layer</li>
+  <li>Physical layer</li>
+</ul>
+
+<h3 id="packet-switching-multiplexing-queuing-delay-loss">Packet Switching: Multiplexing, Queuing Delay, Loss</h3>
+<ul>
+  <li>Queuing and loss:</li>
+  <li>If arrival rate (in bits) to link exceeds transmission rate of link for a period of time:
+    <ul>
+      <li>Packets will queue, wait to be transmitted on link</li>
+      <li>Packets can be dropped (lost) if memory (buffer) fills up</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="data-delivery-performance">Data Delivery Performance</h3>
+<ul>
+  <li>3 basic measurments
+    <ul>
+      <li>Delay (sec, msec)</li>
+      <li>Throughput (bits/sec)</li>
+      <li>Loss rate (% of packets lost)</li>
+    </ul>
+  </li>
+  <li>Measure at different points -&gt; different results</li>
+</ul>
+
+<h3 id="packet-losses">Packet Losses</h3>
+<ul>
+  <li>Loss due to transmission errors</li>
+  <li>Loss due to congestion</li>
+  <li>Wireless links: variety of possible issues</li>
+</ul>
+
+<h3 id="throughput">Throughput</h3>
+<ul>
+  <li>Throughput over a single link
+    <ul>
+      <li>Point-to-point
+        <ul>
+          <li>Pumping data to the pipe: link bandwidth</li>
+        </ul>
+      </li>
+      <li>Multi-access</li>
+    </ul>
+  </li>
+  <li>Throughput between two end hosts</li>
+</ul>
+
+<h3 id="delay-in-packet-switched-networks">Delay in packet-switched networks</h3>
+<ul>
+  <li>4 sources of delay at each hop
+    <ul>
+      <li>Nodal processing:
+        <ul>
+          <li>Check bit errors</li>
+          <li>Determine output link</li>
+        </ul>
+      </li>
+      <li>Queuing = ### packets in queue X transmission time of each packets</li>
+      <li>Transmission = L / R
+        <ul>
+          <li>L = packet length (bits)</li>
+          <li>R = link bandwidth (bps)</li>
+        </ul>
+      </li>
+      <li>Propagation = d / s
+        <ul>
+          <li>d = length of physical link</li>
+          <li>s = propagation speed in medium</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="example-one-hop-delay">Example: one hop delay</h3>
+<ul>
+  <li>Details:
+    <ul>
+      <li>link length = 100 km</li>
+      <li>bandwidth = 1 Mbps</li>
+      <li>packet size = 1000 bits</li>
+      <li>All packets equal length</li>
+    </ul>
+  </li>
+  <li>Queuing delay = Waiting time for 2 packets</li>
+  <li>Transmission delay = 1000 bits / 1000000 bits/sec = 0.001 sec = 1 msec</li>
+  <li>Propagation delay = 100000 m / 2 * 10^8 m/s = 0.0005 sec = 0.5 msec
+ow
+### Packet-switching: store-and-forward</li>
+  <li>Takes L / R seconds to transmit packet of L bits on to link of R bps</li>
+  <li>Entire packet must arrive at router before it can be transmitted on next link: <strong>store and forward</strong></li>
+</ul>
+
+<h3 id="network-latency">Network Latency</h3>
+<ul>
+  <li>Time to send 1 packet from point A to point B
+    <ul>
+      <li>Sum of delays across each hop along the path</li>
+      <li>Delay_A-B = Delay_A-1 + Delay_1-2 + Delay_2-B</li>
+    </ul>
+  </li>
+  <li>RTT = round-trip-time</li>
+</ul>
+
+<h3 id="real-internet-delays-and-routes">Real internet delays and routes</h3>
+<ul>
+  <li>What do “real” internet delay and loss look like?</li>
+  <li>traceroute program: provides delay measurement from source to router along end-end Internet path towards destination. For all i:
+    <ul>
+      <li>Sends three packets that will reach router i on path towards destination</li>
+      <li>Router i will return packets to sender</li>
+      <li>Sender times interval between transmission and reply</li>
+    </ul>
+  </li>
+  <li>RTT =/= 2 * Oneway Delay traceroute
+    <ul>
+      <li>Paths are not necessarily symmetric</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="what-we-have-covered-today">What we have covered today</h3>
+<ul>
+  <li>Internet: made of huge number of hosts, routers, wired and wireless links</li>
+  <li>Hosts: run bunch of protocols to exchange data with each other</li>
+  <li>Routers: run bunch of protocols in order to be able to move data to right destinations</li>
+  <li>Why protocols are layered</li>
+  <li>How to calculate packet delays as they move across a network</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CS 118 Notes</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>CS 118 Notes</li>
+          <li><a href="mailto:jnisnevich@ucla.edu">jnisnevich@ucla.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jacobnisnevich"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jacobnisnevich</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

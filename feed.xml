@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CS 118 Notes</title>
+    <description></description>
+    <link>http://jacobnisnevich.github.io/</link>
+    <atom:link href="http://jacobnisnevich.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 29 Mar 2016 22:45:58 -0700</pubDate>
+    <lastBuildDate>Tue, 29 Mar 2016 22:45:58 -0700</lastBuildDate>
+    <generator>Jekyll v3.0.3</generator>
+    
+      <item>
+        <title>Lecture 1</title>
+        <description>&lt;h3 id=&quot;what-is-a-computer-network&quot;&gt;What is a computer network?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;IP protocol, etc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cs-118-explain-to-you-how-internet-works&quot;&gt;CS 118: Explain to you how internet works&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Divide-and-conquer
+    &lt;ul&gt;
+      &lt;li&gt;Internet: a very large and complex system&lt;/li&gt;
+      &lt;li&gt;First: figure out many major parts&lt;/li&gt;
+      &lt;li&gt;Then: learn one part at a time&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Your job:
+    &lt;ul&gt;
+      &lt;li&gt;Read the textbook, think through&lt;/li&gt;
+      &lt;li&gt;Ask questions&lt;/li&gt;
+      &lt;li&gt;Practice from doing your homeworks and projects&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;course-workload&quot;&gt;Course Workload&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Weekly reading assigmments (starting today)&lt;/li&gt;
+  &lt;li&gt;Weekly homework assignments
+    &lt;ul&gt;
+      &lt;li&gt;Available from CCLE every Thursady starting this week, due the following
+Wednesday&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Two programming Projects
+    &lt;ul&gt;
+      &lt;li&gt;Work in a team (up to 3 people in each time)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Midterm: Thursday, April 28 (in class)&lt;/li&gt;
+  &lt;li&gt;Final: Monday, June 6, 2016, 6:30pm - 9:30pm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;course-grading&quot;&gt;Course Grading&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;16% Weekly homework assigments (8 total)&lt;/li&gt;
+  &lt;li&gt;40% for 2 programming projects
+    &lt;ul&gt;
+      &lt;li&gt;1st: 20%, 2nd 20%&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;22% Midterm exam&lt;/li&gt;
+  &lt;li&gt;22% Final exam&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;strict-grading-policy&quot;&gt;Strict Grading Policy&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;No credit for late homework or projects&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;first-step-big-picture--terminology&quot;&gt;First step: Big Picture &amp;amp; Terminology&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Millions of connected computing devices
+    &lt;ul&gt;
+      &lt;li&gt;hosts = end systems&lt;/li&gt;
+      &lt;li&gt;running network apps&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Communication links
+    &lt;ul&gt;
+      &lt;li&gt;fiber, copper, radio, satellite&lt;/li&gt;
+      &lt;li&gt;transmission rate: &lt;em&gt;bandiwdth&lt;/em&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Packet switches: forward packets (chunks of data)
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;routers&lt;/em&gt; and &lt;em&gt;switches&lt;/em&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;nuts-and-bolts-view&quot;&gt;“Nuts and Bolts” view&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Internet: “network of networks”
+    &lt;ul&gt;
+      &lt;li&gt;Interconnected ISPs&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Protocols control sending, receiving of msgs
+    &lt;ul&gt;
+      &lt;li&gt;e.g., TCP, IP, HTTP, Skype, 802.11&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Internet standards
+    &lt;ul&gt;
+      &lt;li&gt;RFC: request for comments&lt;/li&gt;
+      &lt;li&gt;IETF: Internet Engineering Task Force&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;applications-view-of-networking&quot;&gt;Application’s View of Networking&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Web browser &amp;lt;——- Internet ——-&amp;gt; Web server&lt;/li&gt;
+  &lt;li&gt;These are application programms&lt;/li&gt;
+  &lt;li&gt;They talk to each other using application protocols (for web, protocol = HTTP)&lt;/li&gt;
+  &lt;li&gt;Don’t know or care how data is sent; do care whether it is delivered reliably&lt;/li&gt;
+  &lt;li&gt;Runs on top of transport protocols&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;whats-a-protocol&quot;&gt;What’s a Protocol&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Human protocols&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;“what’s the time”&lt;/li&gt;
+      &lt;li&gt;“I have a question”&lt;/li&gt;
+      &lt;li&gt;introductions&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Network protocols&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Machines rather than humans&lt;/li&gt;
+      &lt;li&gt;All communication activity in Internet govered by protocols&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Protocols define format, order of messages sent and received among network entities, and actions taken on message transmission, receipt&lt;/li&gt;
+  &lt;li&gt;… specific messages sent&lt;/li&gt;
+  &lt;li&gt;… specific actions taken when messages received or other events&lt;/li&gt;
+  &lt;li&gt;Network protocol
+    &lt;ul&gt;
+      &lt;li&gt;TCP connection request –&amp;gt; TCP connection response –&amp;gt; GET http://www.google.com –&amp;gt; &lt;file&gt; --&amp;gt;&lt;/file&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;application-layer-protocols&quot;&gt;Application Layer Protocols&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Covered in chapter 2 of the book&lt;/li&gt;
+  &lt;li&gt;Basic objective: understand common application protocols:
+    &lt;ul&gt;
+      &lt;li&gt;Web: Hyper-Text Transfer Protocol (HTTP)&lt;/li&gt;
+      &lt;li&gt;Email: Simple Mail Transport Protocol (SMTP)&lt;/li&gt;
+      &lt;li&gt;Domain Name System (DNS)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;More important objective: design issues
+    &lt;ul&gt;
+      &lt;li&gt;What kinds of services required from the network&lt;/li&gt;
+      &lt;li&gt;How does the choice of services impact application design?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;transport-view-of-networking&quot;&gt;Transport View of Networking&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Assuming &lt;strong&gt;application protocols&lt;/strong&gt; take care of &lt;strong&gt;data content&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Transport protocol’s job: delivering data between communicating ends&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Don’t know or care bout which paths data may traverse through the network&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Do care about:
+    &lt;ol&gt;
+      &lt;li&gt;Delivering data to the right application process&lt;/li&gt;
+      &lt;li&gt;Delivery reliability&lt;/li&gt;
+      &lt;li&gt;Congestion control&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;transport-layer-protocols&quot;&gt;Transport Layer Protocols&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Unreliable data delivery: UDP (User Datagram Protocol)&lt;/li&gt;
+  &lt;li&gt;Reliable data delivery: TCP (Transport Control Protocol)
+    &lt;ul&gt;
+      &lt;li&gt;Reliable delivery over potentially unreliable network&lt;/li&gt;
+      &lt;li&gt;Understanding and managin network delays&lt;/li&gt;
+      &lt;li&gt;Coping with congetstion&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;But transport protocols don’t really do the delivery&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;network-layers-view-of-the-picture&quot;&gt;Network Layer’s view of the picture&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Assuming higher layer protocols handle data content, reliability and congestionm&lt;/li&gt;
+  &lt;li&gt;Network’s job: forward data from source to destination&lt;/li&gt;
+  &lt;li&gt;Do care about: which way to forward data at each step?&lt;/li&gt;
+  &lt;li&gt;Why is this hard?  &lt;strong&gt;Because the Internet is huge!&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;internet-connectivity&quot;&gt;Internet Connectivity&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Consider the connection from laptop to CNN.com:
+    &lt;ul&gt;
+      &lt;li&gt;Wi-Fi -&amp;gt; campus backbone -&amp;gt; ISP -&amp;gt; other ISP -&amp;gt; CNN website&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Access Networks
+    &lt;ul&gt;
+      &lt;li&gt;Connect end system to local network&lt;/li&gt;
+      &lt;li&gt;Some local network router connects to ISP router&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ISP interconnect with each other to form the Internet&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;network-layer-protocols&quot;&gt;Network Layer PRotocols&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Covered in Chapter 4 of the textbook&lt;/li&gt;
+  &lt;li&gt;There are different types of networks
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Circuit&lt;/strong&gt;-switched versus &lt;strong&gt;packet&lt;/strong&gt;-switched&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Internet: packet-switched networks
+    &lt;ul&gt;
+      &lt;li&gt;Network layer provides best effort delivery of packets&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Don’t care exactly how a packet is delivered from one node to next
+    &lt;ul&gt;
+      &lt;li&gt;That’s the job for link layer protocls&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;link-layer-protocols&quot;&gt;Link layer protocols&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Link can be twisted pair, coaxial cable, fiber optic, or wireless&lt;/li&gt;
+  &lt;li&gt;Link layer job: get a packet sent across some medium
+    &lt;ul&gt;
+      &lt;li&gt;Different medium -&amp;gt; different link layer protocol&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Covered in Chapter 5 and 6.1 - 6.3 of the text
+    &lt;ul&gt;
+      &lt;li&gt;Borders on Electrical Engineering: running on top of physical layer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Our objective is to understand technology
+    &lt;ul&gt;
+      &lt;li&gt;How the network is built&lt;/li&gt;
+      &lt;li&gt;How do link layer features impact higher layers design&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;internet-protocol-stack&quot;&gt;Internet Protocol Stack&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Application layer&lt;/li&gt;
+  &lt;li&gt;Transport layer&lt;/li&gt;
+  &lt;li&gt;Network layer&lt;/li&gt;
+  &lt;li&gt;Link layer&lt;/li&gt;
+  &lt;li&gt;Physical layer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;packet-switching-multiplexing-queuing-delay-loss&quot;&gt;Packet Switching: Multiplexing, Queuing Delay, Loss&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Queuing and loss:&lt;/li&gt;
+  &lt;li&gt;If arrival rate (in bits) to link exceeds transmission rate of link for a period of time:
+    &lt;ul&gt;
+      &lt;li&gt;Packets will queue, wait to be transmitted on link&lt;/li&gt;
+      &lt;li&gt;Packets can be dropped (lost) if memory (buffer) fills up&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;data-delivery-performance&quot;&gt;Data Delivery Performance&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;3 basic measurments
+    &lt;ul&gt;
+      &lt;li&gt;Delay (sec, msec)&lt;/li&gt;
+      &lt;li&gt;Throughput (bits/sec)&lt;/li&gt;
+      &lt;li&gt;Loss rate (% of packets lost)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Measure at different points -&amp;gt; different results&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;packet-losses&quot;&gt;Packet Losses&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Loss due to transmission errors&lt;/li&gt;
+  &lt;li&gt;Loss due to congestion&lt;/li&gt;
+  &lt;li&gt;Wireless links: variety of possible issues&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;throughput&quot;&gt;Throughput&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Throughput over a single link
+    &lt;ul&gt;
+      &lt;li&gt;Point-to-point
+        &lt;ul&gt;
+          &lt;li&gt;Pumping data to the pipe: link bandwidth&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Multi-access&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Throughput between two end hosts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;delay-in-packet-switched-networks&quot;&gt;Delay in packet-switched networks&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;4 sources of delay at each hop
+    &lt;ul&gt;
+      &lt;li&gt;Nodal processing:
+        &lt;ul&gt;
+          &lt;li&gt;Check bit errors&lt;/li&gt;
+          &lt;li&gt;Determine output link&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Queuing = ### packets in queue X transmission time of each packets&lt;/li&gt;
+      &lt;li&gt;Transmission = L / R
+        &lt;ul&gt;
+          &lt;li&gt;L = packet length (bits)&lt;/li&gt;
+          &lt;li&gt;R = link bandwidth (bps)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Propagation = d / s
+        &lt;ul&gt;
+          &lt;li&gt;d = length of physical link&lt;/li&gt;
+          &lt;li&gt;s = propagation speed in medium&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;example-one-hop-delay&quot;&gt;Example: one hop delay&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Details:
+    &lt;ul&gt;
+      &lt;li&gt;link length = 100 km&lt;/li&gt;
+      &lt;li&gt;bandwidth = 1 Mbps&lt;/li&gt;
+      &lt;li&gt;packet size = 1000 bits&lt;/li&gt;
+      &lt;li&gt;All packets equal length&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Queuing delay = Waiting time for 2 packets&lt;/li&gt;
+  &lt;li&gt;Transmission delay = 1000 bits / 1000000 bits/sec = 0.001 sec = 1 msec&lt;/li&gt;
+  &lt;li&gt;Propagation delay = 100000 m / 2 * 10^8 m/s = 0.0005 sec = 0.5 msec
+ow
+### Packet-switching: store-and-forward&lt;/li&gt;
+  &lt;li&gt;Takes L / R seconds to transmit packet of L bits on to link of R bps&lt;/li&gt;
+  &lt;li&gt;Entire packet must arrive at router before it can be transmitted on next link: &lt;strong&gt;store and forward&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;network-latency&quot;&gt;Network Latency&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Time to send 1 packet from point A to point B
+    &lt;ul&gt;
+      &lt;li&gt;Sum of delays across each hop along the path&lt;/li&gt;
+      &lt;li&gt;Delay_A-B = Delay_A-1 + Delay_1-2 + Delay_2-B&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;RTT = round-trip-time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;real-internet-delays-and-routes&quot;&gt;Real internet delays and routes&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;What do “real” internet delay and loss look like?&lt;/li&gt;
+  &lt;li&gt;traceroute program: provides delay measurement from source to router along end-end Internet path towards destination. For all i:
+    &lt;ul&gt;
+      &lt;li&gt;Sends three packets that will reach router i on path towards destination&lt;/li&gt;
+      &lt;li&gt;Router i will return packets to sender&lt;/li&gt;
+      &lt;li&gt;Sender times interval between transmission and reply&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;RTT =/= 2 * Oneway Delay traceroute
+    &lt;ul&gt;
+      &lt;li&gt;Paths are not necessarily symmetric&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;what-we-have-covered-today&quot;&gt;What we have covered today&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Internet: made of huge number of hosts, routers, wired and wireless links&lt;/li&gt;
+  &lt;li&gt;Hosts: run bunch of protocols to exchange data with each other&lt;/li&gt;
+  &lt;li&gt;Routers: run bunch of protocols in order to be able to move data to right destinations&lt;/li&gt;
+  &lt;li&gt;Why protocols are layered&lt;/li&gt;
+  &lt;li&gt;How to calculate packet delays as they move across a network&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 29 Mar 2016 22:26:00 -0700</pubDate>
+        <link>http://jacobnisnevich.github.io/2016/03/29/lecture_1.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/2016/03/29/lecture_1.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
