@@ -5,8 +5,8 @@
     <description></description>
     <link>http://jacobnisnevich.github.io/cs118-notes/</link>
     <atom:link href="http://jacobnisnevich.github.io/cs118-notes/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 31 Mar 2016 20:54:08 -0700</pubDate>
-    <lastBuildDate>Thu, 31 Mar 2016 20:54:08 -0700</lastBuildDate>
+    <pubDate>Thu, 31 Mar 2016 21:25:46 -0700</pubDate>
+    <lastBuildDate>Thu, 31 Mar 2016 21:25:46 -0700</lastBuildDate>
     <generator>Jekyll v3.0.3</generator>
     
       <item>
@@ -707,9 +707,11 @@ Wednesday&lt;/li&gt;
   &lt;/li&gt;
   &lt;li&gt;Queuing delay = Waiting time for 2 packets&lt;/li&gt;
   &lt;li&gt;Transmission delay = 1000 bits / 1000000 bits/sec = 0.001 sec = 1 msec&lt;/li&gt;
-  &lt;li&gt;Propagation delay = 100000 m / 2 * 10^8 m/s = 0.0005 sec = 0.5 msec
-ow
-### Packet-switching: store-and-forward&lt;/li&gt;
+  &lt;li&gt;Propagation delay = 100000 m / 2 * 10^8 m/s = 0.0005 sec = 0.5 msec&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;packet-switching-store-and-forward&quot;&gt;Packet-switching: store-and-forward&lt;/h3&gt;
+&lt;ul&gt;
   &lt;li&gt;Takes L / R seconds to transmit packet of L bits on to link of R bps&lt;/li&gt;
   &lt;li&gt;Entire packet must arrive at router before it can be transmitted on next link: &lt;strong&gt;store and forward&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
