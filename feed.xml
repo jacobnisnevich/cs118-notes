@@ -5,9 +5,369 @@
     <description></description>
     <link>http://jacobnisnevich.github.io/cs118-notes/</link>
     <atom:link href="http://jacobnisnevich.github.io/cs118-notes/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 29 Mar 2016 23:12:47 -0700</pubDate>
-    <lastBuildDate>Tue, 29 Mar 2016 23:12:47 -0700</lastBuildDate>
+    <pubDate>Thu, 31 Mar 2016 20:54:08 -0700</pubDate>
+    <lastBuildDate>Thu, 31 Mar 2016 20:54:08 -0700</lastBuildDate>
     <generator>Jekyll v3.0.3</generator>
+    
+      <item>
+        <title>Lecture 2</title>
+        <description>&lt;h3 id=&quot;covered-in-lecture-1&quot;&gt;Covered in Lecture 1&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Internet: made of a huge number of hosts and routers, interconnected by physical and wireless links&lt;/li&gt;
+  &lt;li&gt;Hosts: run bunch of protocols to exchange data with each other&lt;/li&gt;
+  &lt;li&gt;Routers: run bunch of protocols to exchange data with each other&lt;/li&gt;
+  &lt;li&gt;Protocols are organized in layers
+    &lt;ul&gt;
+      &lt;li&gt;Application protocols&lt;/li&gt;
+      &lt;li&gt;Transport protocols&lt;/li&gt;
+      &lt;li&gt;Network protocols&lt;/li&gt;
+      &lt;li&gt;Link layer protocols&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;How to calculate packet delays as they move across a network&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;data-delivery-performance&quot;&gt;Data Delivery Performance&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;3 basic measurements
+    &lt;ul&gt;
+      &lt;li&gt;Delay (sec, msec)&lt;/li&gt;
+      &lt;li&gt;Throughput (bits/sec, Kbps, Mbps, Gbps)&lt;/li&gt;
+      &lt;li&gt;Loss rate (% of packets that did not make it)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Transmission delay: L / R
+    &lt;ul&gt;
+      &lt;li&gt;R = link bandwidth (bps)&lt;/li&gt;
+      &lt;li&gt;L = packet length (bits)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Propagation: d / s
+    &lt;ul&gt;
+      &lt;li&gt;d = length of physical link&lt;/li&gt;
+      &lt;li&gt;s = propagation speed in medium (~2 x 10^8 m/sec)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Queueing delay = # packets in queue x transmission time of each packet&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;lets-try-an-example&quot;&gt;Lets Try an Example&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;A&lt;/strong&gt; —- R —-&amp;gt; &lt;strong&gt;S1&lt;/strong&gt; ——– 2R ——–&amp;gt; &lt;strong&gt;S2&lt;/strong&gt; —- R —-&amp;gt; &lt;strong&gt;B&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;L = 4000 bits, R = 2 Mbps, A sends 4 packets
+    &lt;ul&gt;
+      &lt;li&gt;L / R = 2 ms, L / 2R = 1 ms&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Propagation delay: 2 ms for each link&lt;/li&gt;
+  &lt;li&gt;When will the first packet get to S2?
+    &lt;ul&gt;
+      &lt;li&gt;A – S1: D_transmission + D_propagation = 2 ms + 2 ms&lt;/li&gt;
+      &lt;li&gt;S1 – S2: D_transmission + D_propagation = 1 ms + 2 ms = 3 ms&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;When the first packet arrives at S2, where is the second packet?
+    &lt;ul&gt;
+      &lt;li&gt;This occurs at t = 7 ms&lt;/li&gt;
+      &lt;li&gt;At t = 4 ms, last bit leaves A&lt;/li&gt;
+      &lt;li&gt;At t = 6 ms, last bit arrives at S1&lt;/li&gt;
+      &lt;li&gt;At t = 7 ms, last bit leaves S1&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;a-summary-where-is-the-packet&quot;&gt;A summary: Where is the Packet?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;A ————&amp;gt; B
+    &lt;ul&gt;
+      &lt;li&gt;Bandwidth: W,&lt;/li&gt;
+      &lt;li&gt;Link length: 200 km&lt;/li&gt;
+      &lt;li&gt;Packet size: 1000 bits&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Q: when the first bit of the packet reaches B, where is the last bit?
+    &lt;ul&gt;
+      &lt;li&gt;P = propagation delay = 200,000 m / 2 x 10^8 m/sec = 1 ms&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;If transmission delay = P (W = 1 Mbps)&lt;/li&gt;
+  &lt;li&gt;If transmission delay = 0.1 P
+    &lt;ul&gt;
+      &lt;li&gt;bandiwdth * propagation delay = amount of data in the pipe&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;chapter-2-application-layer&quot;&gt;Chapter 2: Application Layer&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Principles of network applications&lt;/li&gt;
+  &lt;li&gt;Web and HTTP&lt;/li&gt;
+  &lt;li&gt;FTP&lt;/li&gt;
+  &lt;li&gt;Electronic Mail&lt;/li&gt;
+  &lt;li&gt;DNS&lt;/li&gt;
+  &lt;li&gt;P2P applications&lt;/li&gt;
+  &lt;li&gt;Socket programming (covered in section)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;some-population-network-applications&quot;&gt;Some Population Network Applications&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Email&lt;/li&gt;
+  &lt;li&gt;Web&lt;/li&gt;
+  &lt;li&gt;Instant messaging&lt;/li&gt;
+  &lt;li&gt;P2P file sharing&lt;/li&gt;
+  &lt;li&gt;Multi-user network games&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;client-server-application-communication-model&quot;&gt;Client-server application communication model&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Servers&lt;/strong&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;Reachable by IP address&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Always-on&lt;/strong&gt;, &lt;em&gt;waiting&lt;/em&gt; for incoming requests from clients&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Clients&lt;/strong&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;Initiate&lt;/em&gt; communication with server&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Q: How does a client process &lt;strong&gt;identify&lt;/strong&gt; the server process with which it wants to communicate?&lt;/li&gt;
+  &lt;li&gt;A: using port numbers via the socket API&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;a-quick-comment-about-port&quot;&gt;A quick comment about “port”&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Web, email, ftp all use TCP&lt;/li&gt;
+  &lt;li&gt;How does the server tell who wants what?
+    &lt;ul&gt;
+      &lt;li&gt;By port number: web uses port 80, ftp uses 21, and email uses 25&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;socket&quot;&gt;Socket&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Process&lt;/strong&gt;: program running on a host&lt;/li&gt;
+  &lt;li&gt;Between different hosts: processes communcate through an &lt;strong&gt;application-layer protocol&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;A process sends/receives messages to/from its &lt;strong&gt;socket&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Socket analogous to door:
+    &lt;ul&gt;
+      &lt;li&gt;Sending process shoves message out of the door&lt;/li&gt;
+      &lt;li&gt;Transport protocol brings message up to the socket from the process&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;what-is-socket&quot;&gt;What is “Socket”&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;A set of system function calls
+    &lt;ul&gt;
+      &lt;li&gt;socket() - create a socket&lt;/li&gt;
+      &lt;li&gt;bind() - bind a socket to a local IP address and port #&lt;/li&gt;
+      &lt;li&gt;connect() - initiating connection to another socket&lt;/li&gt;
+      &lt;li&gt;listen() - passively waiting for connections&lt;/li&gt;
+      &lt;li&gt;accept() - accept a new connection&lt;/li&gt;
+      &lt;li&gt;write() - write data to a socket&lt;/li&gt;
+      &lt;li&gt;read() - read data from a socket&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;establishing-a-socket-on-the-client-side&quot;&gt;Establishing a socket on the client side&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a socket with the socket() system call&lt;/li&gt;
+  &lt;li&gt;Connect the socket to the server using the connect() system call&lt;/li&gt;
+  &lt;li&gt;Send and receive data
+    &lt;ul&gt;
+      &lt;li&gt;There are a number of ways to do this, but the simplest is to use the read() and write() system calls&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;establishing-a-socket-on-the-server-side&quot;&gt;Establishing a socket on the server side&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a socket with the socket() system call&lt;/li&gt;
+  &lt;li&gt;Bind the socket to [address, port #] using the bind() system call&lt;/li&gt;
+  &lt;li&gt;Listen for connections with the listen() system call&lt;/li&gt;
+  &lt;li&gt;Accept a connection with the accept() system call
+    &lt;ul&gt;
+      &lt;li&gt;This call typically blocks until a client connects with the server&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Send and receive data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;applications&quot;&gt;Applications&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;So far we’ve talked about
+    &lt;ul&gt;
+      &lt;li&gt;Application process (executing application program)&lt;/li&gt;
+      &lt;li&gt;Application protocol (used by application processes to exchange data)&lt;/li&gt;
+      &lt;li&gt;Exactly how data is exchanged
+        &lt;ul&gt;
+          &lt;li&gt;Socket&lt;/li&gt;
+          &lt;li&gt;Transport protocol&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Lets look at exactly what data is exchanged&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;web-and-http&quot;&gt;Web and HTTP&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Web page: normally consists of
+    &lt;ul&gt;
+      &lt;li&gt;Base HTML-file, which includes several referenced objects&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;An object can be another HTML file, JPEG image, Java applet, audio file, …&lt;/li&gt;
+  &lt;li&gt;Each object is addressable by a URL (Universal Resource Locator)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-hypertext-transfer-protocol&quot;&gt;HTTP: HyperText Transfer Protocol&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Web’s application layer protocol&lt;/li&gt;
+  &lt;li&gt;Client/server model
+    &lt;ul&gt;
+      &lt;li&gt;Client: browser that requests, recieves, and displays web objects&lt;/li&gt;
+      &lt;li&gt;Server: web server sends objects in response to requests&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HTTP/1.0: non-persistent connection&lt;/li&gt;
+  &lt;li&gt;HTTP/1.1: persistent connection
+    &lt;ul&gt;
+      &lt;li&gt;May also use pipelining&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;more-on-http&quot;&gt;More on HTTP&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Uses TCP:
+    &lt;ul&gt;
+      &lt;li&gt;Client initiates TCP connection (creates socket) to server, port 80&lt;/li&gt;
+      &lt;li&gt;Server accepts TCP connection from client&lt;/li&gt;
+      &lt;li&gt;HTTP messages (application-layer protocol messages) exhanged between browser (HTTP client) and web server (HTTP server)&lt;/li&gt;
+      &lt;li&gt;TCP connection closed&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HTTP is “stateless”
+    &lt;ul&gt;
+      &lt;li&gt;Server maintains no information about past client requests&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Aside: protocols that maintain “state” are complext
+    &lt;ul&gt;
+      &lt;li&gt;Past history (state) must be maintained if server/client crashes, their views of “state” may become inconsistent&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-request-message&quot;&gt;HTTP Request MEssage&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Two types of HTTP messages: request, response&lt;/li&gt;
+  &lt;li&gt;HTTP request message:
+    &lt;ul&gt;
+      &lt;li&gt;ASCII (human-readable)&lt;/li&gt;
+      &lt;li&gt;Request line: method, url, veresion, \r, \n
+        &lt;ul&gt;
+          &lt;li&gt;“GET /index.html HTTP/1.1\r\n”&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Header lines&lt;/li&gt;
+      &lt;li&gt;Blank line at the end indicates end of header&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;method-types&quot;&gt;Method Types&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP/1.0
+    &lt;ul&gt;
+      &lt;li&gt;GET&lt;/li&gt;
+      &lt;li&gt;POST&lt;/li&gt;
+      &lt;li&gt;HEAD
+        &lt;ul&gt;
+          &lt;li&gt;Requesting the header only (i.e. response does not include the requested object)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HTTP/1.1
+    &lt;ul&gt;
+      &lt;li&gt;GET, POST, HEAD&lt;/li&gt;
+      &lt;li&gt;PUT
+        &lt;ul&gt;
+          &lt;li&gt;Uploads file in entity body to path specified in URL field&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;DELETE
+        &lt;ul&gt;
+          &lt;li&gt;Deletes file specifie in the URL field from the server&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;And a few others
+        &lt;ul&gt;
+          &lt;li&gt;See te protocol specification in RFC2616&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-response-message&quot;&gt;HTTP Response Message&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Status line
+    &lt;ul&gt;
+      &lt;li&gt;“HTTP/1.1 200 OK\r\n”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Header lines&lt;/li&gt;
+  &lt;li&gt;Blank line indicating end of header&lt;/li&gt;
+  &lt;li&gt;Data, e.g., requested HTML file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-response-status-codes&quot;&gt;HTTP Response Status Codes&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Appears in the first line in server -&amp;gt; clinet response message&lt;/li&gt;
+  &lt;li&gt;A few sample codes
+    &lt;ul&gt;
+      &lt;li&gt;200 OK
+        &lt;ul&gt;
+          &lt;li&gt;Request succeeded, requested object later in this message&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;301 Moved Permanently
+        &lt;ul&gt;
+          &lt;li&gt;Requested object moved&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;400 Bad Request&lt;/li&gt;
+      &lt;li&gt;404 Not Found
+        &lt;ul&gt;
+          &lt;li&gt;Requested document not found&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;505 HTTP Version Not Supported&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;trying-out-http-request-for-yourself&quot;&gt;Trying out HTTP Request for Yourself&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Telnet to a Web server&lt;/li&gt;
+  &lt;li&gt;Type in a GET HTTP request&lt;/li&gt;
+  &lt;li&gt;Look at response message from the HTTP server&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Thu, 31 Mar 2016 20:53:00 -0700</pubDate>
+        <link>http://jacobnisnevich.github.io/cs118-notes/2016/03/31/lecture_2.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/cs118-notes/2016/03/31/lecture_2.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Lecture 1</title>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lecture 2</title>
+  <meta name="description" content="Covered in Lecture 1  Internet: made of a huge number of hosts and routers, interconnected by physical and wireless links  Hosts: run bunch of protocols to e...">
+
+  <link rel="stylesheet" href="/cs118-notes/css/main.css">
+  <link rel="canonical" href="http://jacobnisnevich.github.io/cs118-notes/2016/03/31/lecture_2.html">
+  <link rel="alternate" type="application/rss+xml" title="CS 118 Notes" href="http://jacobnisnevich.github.io/cs118-notes/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/cs118-notes/">CS 118 Notes</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Lecture 2</h1>
+    <p class="post-meta"><time datetime="2016-03-31T20:53:00-07:00" itemprop="datePublished">Mar 31, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="covered-in-lecture-1">Covered in Lecture 1</h3>
+<ul>
+  <li>Internet: made of a huge number of hosts and routers, interconnected by physical and wireless links</li>
+  <li>Hosts: run bunch of protocols to exchange data with each other</li>
+  <li>Routers: run bunch of protocols to exchange data with each other</li>
+  <li>Protocols are organized in layers
+    <ul>
+      <li>Application protocols</li>
+      <li>Transport protocols</li>
+      <li>Network protocols</li>
+      <li>Link layer protocols</li>
+    </ul>
+  </li>
+  <li>How to calculate packet delays as they move across a network</li>
+</ul>
+
+<h3 id="data-delivery-performance">Data Delivery Performance</h3>
+<ul>
+  <li>3 basic measurements
+    <ul>
+      <li>Delay (sec, msec)</li>
+      <li>Throughput (bits/sec, Kbps, Mbps, Gbps)</li>
+      <li>Loss rate (% of packets that did not make it)</li>
+    </ul>
+  </li>
+  <li>Transmission delay: L / R
+    <ul>
+      <li>R = link bandwidth (bps)</li>
+      <li>L = packet length (bits)</li>
+    </ul>
+  </li>
+  <li>Propagation: d / s
+    <ul>
+      <li>d = length of physical link</li>
+      <li>s = propagation speed in medium (~2 x 10^8 m/sec)</li>
+    </ul>
+  </li>
+  <li>Queueing delay = # packets in queue x transmission time of each packet</li>
+</ul>
+
+<h3 id="lets-try-an-example">Lets Try an Example</h3>
+<ul>
+  <li><strong>A</strong> —- R —-&gt; <strong>S1</strong> ——– 2R ——–&gt; <strong>S2</strong> —- R —-&gt; <strong>B</strong></li>
+  <li>L = 4000 bits, R = 2 Mbps, A sends 4 packets
+    <ul>
+      <li>L / R = 2 ms, L / 2R = 1 ms</li>
+    </ul>
+  </li>
+  <li>Propagation delay: 2 ms for each link</li>
+  <li>When will the first packet get to S2?
+    <ul>
+      <li>A – S1: D_transmission + D_propagation = 2 ms + 2 ms</li>
+      <li>S1 – S2: D_transmission + D_propagation = 1 ms + 2 ms = 3 ms</li>
+    </ul>
+  </li>
+  <li>When the first packet arrives at S2, where is the second packet?
+    <ul>
+      <li>This occurs at t = 7 ms</li>
+      <li>At t = 4 ms, last bit leaves A</li>
+      <li>At t = 6 ms, last bit arrives at S1</li>
+      <li>At t = 7 ms, last bit leaves S1</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="a-summary-where-is-the-packet">A summary: Where is the Packet?</h3>
+<ul>
+  <li>A ————&gt; B
+    <ul>
+      <li>Bandwidth: W,</li>
+      <li>Link length: 200 km</li>
+      <li>Packet size: 1000 bits</li>
+    </ul>
+  </li>
+  <li>Q: when the first bit of the packet reaches B, where is the last bit?
+    <ul>
+      <li>P = propagation delay = 200,000 m / 2 x 10^8 m/sec = 1 ms</li>
+    </ul>
+  </li>
+  <li>If transmission delay = P (W = 1 Mbps)</li>
+  <li>If transmission delay = 0.1 P
+    <ul>
+      <li>bandiwdth * propagation delay = amount of data in the pipe</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="chapter-2-application-layer">Chapter 2: Application Layer</h3>
+<ul>
+  <li>Principles of network applications</li>
+  <li>Web and HTTP</li>
+  <li>FTP</li>
+  <li>Electronic Mail</li>
+  <li>DNS</li>
+  <li>P2P applications</li>
+  <li>Socket programming (covered in section)</li>
+</ul>
+
+<h3 id="some-population-network-applications">Some Population Network Applications</h3>
+<ul>
+  <li>Email</li>
+  <li>Web</li>
+  <li>Instant messaging</li>
+  <li>P2P file sharing</li>
+  <li>Multi-user network games</li>
+</ul>
+
+<h3 id="client-server-application-communication-model">Client-server application communication model</h3>
+<ul>
+  <li><strong>Servers</strong>:
+    <ul>
+      <li>Reachable by IP address</li>
+      <li><strong>Always-on</strong>, <em>waiting</em> for incoming requests from clients</li>
+    </ul>
+  </li>
+  <li><strong>Clients</strong>:
+    <ul>
+      <li><em>Initiate</em> communication with server</li>
+    </ul>
+  </li>
+  <li>Q: How does a client process <strong>identify</strong> the server process with which it wants to communicate?</li>
+  <li>A: using port numbers via the socket API</li>
+</ul>
+
+<h3 id="a-quick-comment-about-port">A quick comment about “port”</h3>
+<ul>
+  <li>Web, email, ftp all use TCP</li>
+  <li>How does the server tell who wants what?
+    <ul>
+      <li>By port number: web uses port 80, ftp uses 21, and email uses 25</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="socket">Socket</h3>
+<ul>
+  <li><strong>Process</strong>: program running on a host</li>
+  <li>Between different hosts: processes communcate through an <strong>application-layer protocol</strong></li>
+  <li>A process sends/receives messages to/from its <strong>socket</strong></li>
+  <li>Socket analogous to door:
+    <ul>
+      <li>Sending process shoves message out of the door</li>
+      <li>Transport protocol brings message up to the socket from the process</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="what-is-socket">What is “Socket”</h2>
+<ul>
+  <li>A set of system function calls
+    <ul>
+      <li>socket() - create a socket</li>
+      <li>bind() - bind a socket to a local IP address and port #</li>
+      <li>connect() - initiating connection to another socket</li>
+      <li>listen() - passively waiting for connections</li>
+      <li>accept() - accept a new connection</li>
+      <li>write() - write data to a socket</li>
+      <li>read() - read data from a socket</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="establishing-a-socket-on-the-client-side">Establishing a socket on the client side</h3>
+<ul>
+  <li>Create a socket with the socket() system call</li>
+  <li>Connect the socket to the server using the connect() system call</li>
+  <li>Send and receive data
+    <ul>
+      <li>There are a number of ways to do this, but the simplest is to use the read() and write() system calls</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="establishing-a-socket-on-the-server-side">Establishing a socket on the server side</h3>
+<ul>
+  <li>Create a socket with the socket() system call</li>
+  <li>Bind the socket to [address, port #] using the bind() system call</li>
+  <li>Listen for connections with the listen() system call</li>
+  <li>Accept a connection with the accept() system call
+    <ul>
+      <li>This call typically blocks until a client connects with the server</li>
+    </ul>
+  </li>
+  <li>Send and receive data</li>
+</ul>
+
+<h3 id="applications">Applications</h3>
+<ul>
+  <li>So far we’ve talked about
+    <ul>
+      <li>Application process (executing application program)</li>
+      <li>Application protocol (used by application processes to exchange data)</li>
+      <li>Exactly how data is exchanged
+        <ul>
+          <li>Socket</li>
+          <li>Transport protocol</li>
+        </ul>
+      </li>
+      <li>Lets look at exactly what data is exchanged</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="web-and-http">Web and HTTP</h3>
+<ul>
+  <li>Web page: normally consists of
+    <ul>
+      <li>Base HTML-file, which includes several referenced objects</li>
+    </ul>
+  </li>
+  <li>An object can be another HTML file, JPEG image, Java applet, audio file, …</li>
+  <li>Each object is addressable by a URL (Universal Resource Locator)</li>
+</ul>
+
+<h3 id="http-hypertext-transfer-protocol">HTTP: HyperText Transfer Protocol</h3>
+<ul>
+  <li>Web’s application layer protocol</li>
+  <li>Client/server model
+    <ul>
+      <li>Client: browser that requests, recieves, and displays web objects</li>
+      <li>Server: web server sends objects in response to requests</li>
+    </ul>
+  </li>
+  <li>HTTP/1.0: non-persistent connection</li>
+  <li>HTTP/1.1: persistent connection
+    <ul>
+      <li>May also use pipelining</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="more-on-http">More on HTTP</h3>
+<ul>
+  <li>Uses TCP:
+    <ul>
+      <li>Client initiates TCP connection (creates socket) to server, port 80</li>
+      <li>Server accepts TCP connection from client</li>
+      <li>HTTP messages (application-layer protocol messages) exhanged between browser (HTTP client) and web server (HTTP server)</li>
+      <li>TCP connection closed</li>
+    </ul>
+  </li>
+  <li>HTTP is “stateless”
+    <ul>
+      <li>Server maintains no information about past client requests</li>
+    </ul>
+  </li>
+  <li>Aside: protocols that maintain “state” are complext
+    <ul>
+      <li>Past history (state) must be maintained if server/client crashes, their views of “state” may become inconsistent</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="http-request-message">HTTP Request MEssage</h3>
+<ul>
+  <li>Two types of HTTP messages: request, response</li>
+  <li>HTTP request message:
+    <ul>
+      <li>ASCII (human-readable)</li>
+      <li>Request line: method, url, veresion, \r, \n
+        <ul>
+          <li>“GET /index.html HTTP/1.1\r\n”</li>
+        </ul>
+      </li>
+      <li>Header lines</li>
+      <li>Blank line at the end indicates end of header</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="method-types">Method Types</h3>
+<ul>
+  <li>HTTP/1.0
+    <ul>
+      <li>GET</li>
+      <li>POST</li>
+      <li>HEAD
+        <ul>
+          <li>Requesting the header only (i.e. response does not include the requested object)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>HTTP/1.1
+    <ul>
+      <li>GET, POST, HEAD</li>
+      <li>PUT
+        <ul>
+          <li>Uploads file in entity body to path specified in URL field</li>
+        </ul>
+      </li>
+      <li>DELETE
+        <ul>
+          <li>Deletes file specifie in the URL field from the server</li>
+        </ul>
+      </li>
+      <li>And a few others
+        <ul>
+          <li>See te protocol specification in RFC2616</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="http-response-message">HTTP Response Message</h3>
+<ul>
+  <li>Status line
+    <ul>
+      <li>“HTTP/1.1 200 OK\r\n”</li>
+    </ul>
+  </li>
+  <li>Header lines</li>
+  <li>Blank line indicating end of header</li>
+  <li>Data, e.g., requested HTML file</li>
+</ul>
+
+<h3 id="http-response-status-codes">HTTP Response Status Codes</h3>
+<ul>
+  <li>Appears in the first line in server -&gt; clinet response message</li>
+  <li>A few sample codes
+    <ul>
+      <li>200 OK
+        <ul>
+          <li>Request succeeded, requested object later in this message</li>
+        </ul>
+      </li>
+      <li>301 Moved Permanently
+        <ul>
+          <li>Requested object moved</li>
+        </ul>
+      </li>
+      <li>400 Bad Request</li>
+      <li>404 Not Found
+        <ul>
+          <li>Requested document not found</li>
+        </ul>
+      </li>
+      <li>505 HTTP Version Not Supported</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="trying-out-http-request-for-yourself">Trying out HTTP Request for Yourself</h3>
+<ol>
+  <li>Telnet to a Web server</li>
+  <li>Type in a GET HTTP request</li>
+  <li>Look at response message from the HTTP server</li>
+</ol>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CS 118 Notes</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>CS 118 Notes</li>
+          <li><a href="mailto:jnisnevich@ucla.edu">jnisnevich@ucla.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jacobnisnevich"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jacobnisnevich</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
