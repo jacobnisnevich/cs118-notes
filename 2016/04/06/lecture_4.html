@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lecture 4</title>
+  <meta name="description" content="Today’s Plan  2.3 -&gt; FTP  2.4 Electronic Mail          How many parts in email delivery system      Simple Mail Transfer Protocol (SMTP)      Mail retriev...">
+
+  <link rel="stylesheet" href="/cs118-notes/css/main.css">
+  <link rel="canonical" href="http://jacobnisnevich.github.io/cs118-notes/2016/04/06/lecture_4.html">
+  <link rel="alternate" type="application/rss+xml" title="CS 118 Notes" href="http://jacobnisnevich.github.io/cs118-notes/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/cs118-notes/">CS 118 Notes</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Lecture 4</h1>
+    <p class="post-meta"><time datetime="2016-04-06T22:26:00-07:00" itemprop="datePublished">Apr 6, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="todays-plan">Today’s Plan</h3>
+<ul>
+  <li>2.3 -&gt; FTP</li>
+  <li>2.4 Electronic Mail
+    <ul>
+      <li>How many parts in email delivery system</li>
+      <li>Simple Mail Transfer Protocol (SMTP)</li>
+      <li>Mail retrieval protocols:
+        <ul>
+          <li>POP3</li>
+          <li>IMAP</li>
+        </ul>
+      </li>
+      <li>Basics of email security</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="how-do-people-share-data-besides-the-web">How do people share data besides the Web?</h3>
+<ul>
+  <li>FTP (FIle Transfer Protocol)</li>
+  <li>Email (for small-size data files)</li>
+</ul>
+
+<h3 id="basics-of-ftp">Basics of FTP</h3>
+<ul>
+  <li>Unlike HTTP, presents you a file system rather than a web page</li>
+  <li>Can browse remote host similar to a local file system</li>
+  <li>If allowed can
+    <ul>
+      <li>Upload files</li>
+      <li>Create directories</li>
+      <li>Other file system operations</li>
+    </ul>
+  </li>
+  <li>FTP command =/= FTP protocol</li>
+  <li><code class="highlighter-rouge">telnet</code> more exactly uses the low-level FTP protocol</li>
+</ul>
+
+<h3 id="ftp-the-file-transfer-protocol">FTP: the file transfer protocol</h3>
+<ul>
+  <li>Specification: RFC 959</li>
+  <li>Client/server model
+    <ul>
+      <li><em>client</em>: side that initiates file transfer (either get or put)</li>
+      <li><em>server</em>: remote file storage host
+        <ul>
+          <li>Listening on TCP port 21</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ftp-separate-control-data-connections">FTP: separate control, data connections</h3>
+<ul>
+  <li>Client
+    <ul>
+      <li>Open a TCP connection with FTP server</li>
+      <li>Authorizes itself</li>
+      <li>Browse remote directory, issue <code class="highlighter-rouge">get</code>, <code class="highlighter-rouge">put</code> commands</li>
+    </ul>
+  </li>
+  <li>Server
+    <ul>
+      <li>Listen on TCP port 21</li>
+      <li>When receives a file transfer command, opens a separate TCP data connection to client</li>
+      <li>After transferring each file, close the data connecion</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ftp-questions">FTP Questions</h3>
+<ul>
+  <li>Is the retrieved data = the data stored in FTP?
+    <ul>
+      <li>Technically, no</li>
+    </ul>
+  </li>
+  <li>Is it “safe” to use FTP?
+    <ul>
+      <li>Can be made safer using a checksum like MD5 (less secure) or SHA-256</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="electronic-mail-4-major-components">Electronic Mail: 4 major components</h3>
+<ul>
+  <li><strong>user agents</strong>: aka “mail app”: composing, editing, reading mail messages
+    <ul>
+      <li>Eudora, Outlook, elm, Apple Mail, browser</li>
+    </ul>
+  </li>
+  <li><strong>mail servers</strong>:
+    <ul>
+      <li><em>mailbox</em> contains incoming messages for user</li>
+      <li><em>message queue</em> of outgoing (to be sent) mail messages</li>
+    </ul>
+  </li>
+  <li><strong>simple mail transfer protocol</strong> (SMTP): transfer email messages from user client to servers and <em>between mail servers</em></li>
+  <li><strong>mail retrieval protocls</strong> (multiple)</li>
+</ul>
+
+<h3 id="example-alice-sends-a-amessage-to-bob">Example: Alice sends a amessage to Bob</h3>
+<ul>
+  <li>Alice writes a msg “to” bob@someschool.edu</li>
+  <li>Alices UA sends message to her mail server; message placed in message queue</li>
+  <li>The mail server opens TCP connection with Bob’s mail server</li>
+  <li>Alice’s server sends the msg over the TCP connection</li>
+  <li>Bob’s mail server places the msg in Bob’s mailbox</li>
+  <li>Bob invokes his user agent to fetch message</li>
+</ul>
+
+<h3 id="simple-mail-transfer-protocol">Simple Mail Transfer Protocol</h3>
+<ul>
+  <li>Three phases of transfer
+    <ul>
+      <li>Handshaking (greeting)</li>
+      <li>Transfer of messages</li>
+      <li>Closing
+        <ul>
+          <li>Note: this is <em>not</em> TCP connection close (to be covered in next lectures)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Each phase: command/respone interaction
+    <ul>
+      <li><em>commands</em>: ASCII text</li>
+      <li><em>response</em>: status code and phrase</li>
+    </ul>
+  </li>
+  <li>Messages must be encoded in 7-bit ASCII</li>
+</ul>
+
+<h3 id="smtp-a-few-highlights">SMTP: A Few Highlights</h3>
+<ul>
+  <li>SMTP server uses CRLF.CRLF to determine ned of message</li>
+  <li>SMTP msg body: use an empty line to separate header and body</li>
+  <li>Message must be encoded in 7-bit ASCII</li>
+  <li>Multipurpose Internet Mail Extensions (MIME) to support
+    <ul>
+      <li>Header information or text in non-ASCII charset</li>
+      <li>Non-text attachment</li>
+      <li>Message bodies with multiple parts</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="how-to-send-emails">How to send emails?</h3>
+<ul>
+  <li>SMTP servers for the domain normally allow emails only for this domain</li>
+  <li>Use “providers” SMTP service
+    <ul>
+      <li>Allow custmoers to send email to any domain service</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="other-way-to-send-email">Other way to send email?</h3>
+<ul>
+  <li>Contact domain’s SMTP directly</li>
+  <li>Drawbacks?</li>
+</ul>
+
+<h3 id="securing-channel-to-smtp-server">Securing channel to SMTP server</h3>
+<ul>
+  <li>Remember HTTPS</li>
+  <li>Similar can/should be used for SMTP
+    <ul>
+      <li>Don’t allow others to see your login password</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="is-your-email-secure">Is your email secure?</h3>
+<ul>
+  <li>No</li>
+  <li>Why?
+    <ul>
+      <li>Its just plain text</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="is-there-any-way-to-secure-your-email">Is there any way to secure your email?</h3>
+<ul>
+  <li>How to ensure that others know your email is indeed from you?</li>
+</ul>
+
+<h3 id="securing-email">Securing Email</h3>
+<ul>
+  <li>Sign with a valid certificate
+    <ul>
+      <li>Issued by some certification authority
+        <ul>
+          <li>Can check and vouch that it is indeed you who sent the email</li>
+          <li>Can simply check your own email</li>
+        </ul>
+      </li>
+      <li>Web-of-Trust certificate (PGP, GPG)
+        <ul>
+          <li>Others can vouch for you</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Encrypt with somebody else’s public key</li>
+</ul>
+
+<h3 id="signing-outgoing-emails">Signing outgoing emails</h3>
+<ul>
+  <li>Manually
+    <ul>
+      <li>Gmail and most other web-based systems</li>
+    </ul>
+  </li>
+  <li>Automatically
+    <ul>
+      <li>Apple Mail, Outlook, etc.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="verification">Verification</h3>
+<ul>
+  <li>Manually
+    <ul>
+      <li>GPG + paste text and signature</li>
+    </ul>
+  </li>
+  <li>Automatically
+    <ul>
+      <li>With desktop mail client</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="mail-access-protocols">Mail access protocols</h3>
+<ul>
+  <li>SMTP: deliver mail to receiver’s server</li>
+  <li>Mail access protocol: retrieval from server
+    <ul>
+      <li>POP: Post Office Protocol [RFC 1939]
+        <ul>
+          <li>Authorization (agent &lt;–&gt; server) and download</li>
+        </ul>
+      </li>
+      <li>IMAP: Internet Mail Access Protocol [RFC 1730]
+        <ul>
+          <li>More feature (e.g. multiple folders)</li>
+          <li>manipulation of stored messages on server</li>
+        </ul>
+      </li>
+      <li>HTTP: Gmail, Hotmail, Yahoo! Mail</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CS 118 Notes</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>CS 118 Notes</li>
+          <li><a href="mailto:jnisnevich@ucla.edu">jnisnevich@ucla.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jacobnisnevich"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jacobnisnevich</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

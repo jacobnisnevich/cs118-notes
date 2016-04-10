@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lecture 3</title>
+  <meta name="description" content="Plan for Today  Non-persistent vs persistent HTTP, pipelining  HTTP cookies  HTTP caching  HTTP/2.0: a brief introduction">
+
+  <link rel="stylesheet" href="/cs118-notes/css/main.css">
+  <link rel="canonical" href="http://jacobnisnevich.github.io/cs118-notes/2016/04/04/lecture_3.html">
+  <link rel="alternate" type="application/rss+xml" title="CS 118 Notes" href="http://jacobnisnevich.github.io/cs118-notes/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/cs118-notes/">CS 118 Notes</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Lecture 3</h1>
+    <p class="post-meta"><time datetime="2016-04-04T22:26:00-07:00" itemprop="datePublished">Apr 4, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="plan-for-today">Plan for Today</h3>
+<ul>
+  <li>Non-persistent vs persistent HTTP, pipelining</li>
+  <li>HTTP cookies</li>
+  <li>HTTP caching</li>
+  <li>HTTP/2.0: a brief introduction</li>
+</ul>
+
+<h3 id="non-persistent-http-response-time">Non-persistent HTTP: Response Time</h3>
+<ul>
+  <li>RTT (round-trip time): time between client sending a small packet to server and receiving reply</li>
+  <li>Response time for fetching one object:
+    <ul>
+      <li>One RTT to set up TCP connection</li>
+      <li>One RTT for HTTP request and first byte of HTTP response to reach the client</li>
+      <li>Object transmission time</li>
+    </ul>
+  </li>
+  <li>Total = 2 RTT + transmission time</li>
+</ul>
+
+<h3 id="loading-a-webpage-with-non-persistent-http">Loading a webpage (with non-persistent HTTP)</h3>
+<ul>
+  <li>First client requests and receives the HTML page</li>
+  <li>If there are images on the page, the client makes more requests for each image</li>
+  <li>Essentially for a page with 2 images
+    <ul>
+      <li>We would set up 1 TCP connection to get the page</li>
+      <li>Then set up an additional TCP connection for each image</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="q-how-to-improve">Q: How to improve?</h3>
+<ul>
+  <li>What we have now: at most one object is sent over one TCP connection</li>
+  <li>Could open multiple parallel TCP connections</li>
+  <li>Could keep TCP connection open, use it to fetch/send multiple objects (persistent HTTP)</li>
+</ul>
+
+<h3 id="persistent-http">Persistent HTTP</h3>
+<ul>
+  <li>After sending out first object, keep the connection open for a short period, so if there is another reqeust it can use the same connection</li>
+</ul>
+
+<h3 id="http-summary">HTTP Summary</h3>
+<ul>
+  <li>Non-persistent HTTP
+    <ul>
+      <li>At most one object is fetched over a single TCP connection</li>
+      <li>HTTP/1.0 uses nonpersistent TCP connection
+        <ul>
+          <li>Described in RFC 1945</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Persistent HTTP
+    <ul>
+      <li>Multiple objects can be sent over a single TCP connection between client and server</li>
+      <li>HTTP/1.1 uses persistent connections
+        <ul>
+          <li>Described in RFC 2616</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Either persistent or non-persistent HTTP can set up multiple TCP connections in parallel to speed up data fetching</li>
+</ul>
+
+<h3 id="persistent-http-one-more-detail">Persistent HTTP: one more detail</h3>
+<ul>
+  <li>Persistent <strong>without</strong> pipelining:
+    <ul>
+      <li>Client issues new request after previous response has been received</li>
+      <li>Total delay: one RTT for <em>each</em> object plus data transfer time</li>
+    </ul>
+  </li>
+  <li>Persistent <strong>with</strong> pipelining:
+    <ul>
+      <li>Client sends requests as soon as it sees a referenced object</li>
+      <li>Total delay: one RTT plus data transfer time for all objects</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="three-factors-in-http-fetching">Three factors in HTTP fetching</h3>
+<ul>
+  <li>Use persistent connection or not</li>
+  <li>Set up parallel connections or not</li>
+  <li>Use pipelining in connections or not</li>
+</ul>
+
+<h3 id="http-cookies">HTTP Cookies</h3>
+<ul>
+  <li>If HTTP servers are stateless, how come websites (amazon, google, etc.) and services (advertisements) can remember me?
+    <ul>
+      <li>You are being tracked</li>
+    </ul>
+  </li>
+  <li>Client stores cookies and sends them along with the initial GET request during the next TCP connection with the server</li>
+</ul>
+
+<h3 id="cookies-make-use-of-these-ingredients">Cookies make use of these ingredients:</h3>
+<ul>
+  <li>Website:
+    <ul>
+      <li>If an HTTP request does not have a “cookie” field, include a “set-cookie” header line in HTTP response message</li>
+      <li>Storing in back-end database the cookie with info about the user’s requests</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cookies-usefulness-versus-privacy">Cookies: usefulness versus privacy</h3>
+<ul>
+  <li>Cookies can
+    <ul>
+      <li>Bring convenience to you</li>
+      <li>Bring recommendations</li>
+      <li>Permit a website to learn a lot about you</li>
+      <li>Advertising companies can obtain user info across multiple sites</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="web-caching-important">Web Caching <strong>(IMPORTANT)</strong></h3>
+<ul>
+  <li>User sets browser to enable web accesses via cache</li>
+  <li>Browser sends all HTTP requests to cache</li>
+  <li>Cache:
+    <ul>
+      <li>If requested object in cache: returns object</li>
+      <li>Else requests object from the server, then returns object to client</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="why-web-caching">Why Web Caching</h3>
+<ul>
+  <li>Reduce load on the origin server
+    <ul>
+      <li>Enables “poor” content providers to effectively deliver content</li>
+    </ul>
+  </li>
+  <li>Reduce traffic on an institution’s access link</li>
+  <li>Reduce response time for client request</li>
+</ul>
+
+<h3 id="example-without-caching">Example: without caching</h3>
+<ul>
+  <li>Assumptions
+    <ul>
+      <li>Average web request rate = 10 req/sec</li>
+      <li>Average object size = 100,000 bits</li>
+      <li>RTT from institutional router to any web server and back  500 msec</li>
+    </ul>
+  </li>
+  <li>Consequences
+    <ul>
+      <li>Utilization on LAN = 10%</li>
+      <li>Utilization on acces link = 100%
+        <ul>
+          <li>Queueing delay at institutional router: may grow without bound</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Total delay = 500 msec + long queueing delay</li>
+</ul>
+
+<h3 id="solution-1-buy-more-bandwidth">Solution 1: Buy more bandwidth</h3>
+<ul>
+  <li>Increase bandwidth of access link to 10 Mbps</li>
+  <li>Consequences:
+    <ul>
+      <li>Can be costly</li>
+      <li>Utilization on LAN = 10%</li>
+      <li>Utilization on access link = 10%</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="solution-2-adding-a-local-cache">Solution 2: Adding a local cache</h3>
+<ul>
+  <li>Consequences:
+    <ul>
+      <li>Assume hit rate = 0.4: 40% of requests will be satisfied by the data in the cache (delay = 10 msec)</li>
+      <li>Remaining 60% requests served by origin servers</li>
+      <li>Utilization of access link reduced to 60% -&gt; much smaller queueing delay (say 30 msec)</li>
+      <li>Average delay for each packet = 0.6 x (Internet delay + access delay) + 0.4 x (LAN/cache delay) = 0.6 x (5s0 msec) + 0.4 x (10 msec) = 322 msec</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="having-a-local-cache-not-a-free-lunch">Having a local cache: Not a free lunch</h3>
+<ul>
+  <li>Need to configure browsers to use the local cache</li>
+  <li>What if the local cache fails?</li>
+  <li>What if the cached content is obsolete?</li>
+  <li>What about secure HTTP connections?</li>
+</ul>
+
+<h3 id="http-conditional-get">HTTP Conditional GET</h3>
+<ul>
+  <li>Fetch content only if it has changed since previous fetch</li>
+  <li>Cache: specify date of cached copy in HTTP request
+    <ul>
+      <li>“If-modified-since: <date>"</date></li>
+    </ul>
+  </li>
+  <li>Server: response contains no object if cached copy is up-to-date
+    <ul>
+      <li>“HTTP/1.1 304 Not Modified”</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="why-http-20">Why HTTP 2.0</h3>
+<ul>
+  <li>HTTP/1.1 with pipelining: not good enough</li>
+  <li>Some measurement numbers: an average Web application is now
+    <ul>
+      <li>Composed of more than 90 objects</li>
+      <li>Fetched from more than 15 distinct hosts</li>
+      <li>Totalling more than 1,300 KB of transferred data
+        <ul>
+          <li>On average each object &lt; 15 KB</li>
+          <li>Some can be very big</li>
+          <li>That means some others can be very small</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="some-of-http11s-performance-issues">Some of HTTP/1.1’s Performance Issues</h3>
+<ul>
+  <li>Pipelining: not supported by default
+    <ul>
+      <li>Consequence: take on RTT to fetch ech object</li>
+      <li>Work-around: app developers bundle multiple small objects into a big one</li>
+    </ul>
+  </li>
+  <li>Head-of-line blocking: HTTP/1.1 handles requests in strict sequential order
+    <ul>
+      <li>A request for a large file, or some dynamic computation, can take time, blocking all requests after it</li>
+      <li>Work-around: open multiple TCP connections</li>
+    </ul>
+  </li>
+  <li>Big HTTP header with repetitive information
+    <ul>
+      <li>No way to get around this</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="http20-binary-framing">HTTP/2.0: binary framing</h3>
+<ul>
+  <li>HTTP requests changed to have two frames:
+    <ul>
+      <li>HEADERS frame</li>
+      <li>DATA frame</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="http20-header-compression">HTTP/2.0: header compression</h3>
+<ul>
+  <li>Both browser and server keep a header table until the TCP connection closes</li>
+  <li>Don’t resend headers that have not changed</li>
+</ul>
+
+<h3 id="http20-frame-message-stream">HTTP/2.0: frame, message, stream</h3>
+<ul>
+  <li>Frame: basic communication unit</li>
+  <li>Message: an HTTP request or response (using one or multiple frames)</li>
+  <li>Stream: a virtual channel with priority, carrying messages between client and server</li>
+</ul>
+
+<h3 id="http20-multiplexing">HTTP/2.0 Multiplexing</h3>
+<ul>
+  <li>Only need a single TCP connection between HTTP clietn and server</li>
+  <li>The connecton can carry multiple stream</li>
+</ul>
+
+<h3 id="http20-performance-improvements">HTTP/2.0 Performance Improvements</h3>
+<ul>
+  <li>Reduce HTTP header overhead
+    <ul>
+      <li>Binary encoding</li>
+      <li>Header compression</li>
+    </ul>
+  </li>
+  <li>Single TCP connection between each client-server pair
+    <ul>
+      <li>Multiple stream</li>
+      <li>Each stream: deliver messages between HTTP client–server</li>
+      <li>Big messages are broken down to multiple frames</li>
+      <li>Frames from all streams can be interleaved</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="https-secure-http">HTTPS: Secure HTTP</h3>
+<ul>
+  <li>Ensure that you’re receiving data from place you think you do</li>
+  <li>Ensure secrecy of information exchanges</li>
+</ul>
+
+<h3 id="https-sites-with-domain-validation-dv-certificates">HTTPS: Sites with Domain Validation (DV) Certificates</h3>
+<ul>
+  <li>Contains proof that a public key belongs to a particular public party</li>
+  <li>Less secure than EV</li>
+</ul>
+
+<h3 id="https-sites-with-extended-validation-ev-certificates">HTTPS: Sites with Extended Validation (EV) Certificates</h3>
+<ul>
+  <li>The Certificate Authority (CA) checks the right of the applicant to use a specific domain name PLUS it conducts a THOROUGH vetting of the organization</li>
+  <li>Can also check certificate manually by clicking the lock icon in a browser</li>
+</ul>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CS 118 Notes</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>CS 118 Notes</li>
+          <li><a href="mailto:jnisnevich@ucla.edu">jnisnevich@ucla.edu</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/jacobnisnevich"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">jacobnisnevich</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

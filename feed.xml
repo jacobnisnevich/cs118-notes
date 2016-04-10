@@ -5,9 +5,833 @@
     <description></description>
     <link>http://jacobnisnevich.github.io/cs118-notes/</link>
     <atom:link href="http://jacobnisnevich.github.io/cs118-notes/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 31 Mar 2016 21:25:46 -0700</pubDate>
-    <lastBuildDate>Thu, 31 Mar 2016 21:25:46 -0700</lastBuildDate>
+    <pubDate>Sun, 10 Apr 2016 15:21:29 -0700</pubDate>
+    <lastBuildDate>Sun, 10 Apr 2016 15:21:29 -0700</lastBuildDate>
     <generator>Jekyll v3.0.3</generator>
+    
+      <item>
+        <title>Lecture 4</title>
+        <description>&lt;h3 id=&quot;todays-plan&quot;&gt;Today’s Plan&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;2.3 -&amp;gt; FTP&lt;/li&gt;
+  &lt;li&gt;2.4 Electronic Mail
+    &lt;ul&gt;
+      &lt;li&gt;How many parts in email delivery system&lt;/li&gt;
+      &lt;li&gt;Simple Mail Transfer Protocol (SMTP)&lt;/li&gt;
+      &lt;li&gt;Mail retrieval protocols:
+        &lt;ul&gt;
+          &lt;li&gt;POP3&lt;/li&gt;
+          &lt;li&gt;IMAP&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Basics of email security&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-do-people-share-data-besides-the-web&quot;&gt;How do people share data besides the Web?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;FTP (FIle Transfer Protocol)&lt;/li&gt;
+  &lt;li&gt;Email (for small-size data files)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;basics-of-ftp&quot;&gt;Basics of FTP&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Unlike HTTP, presents you a file system rather than a web page&lt;/li&gt;
+  &lt;li&gt;Can browse remote host similar to a local file system&lt;/li&gt;
+  &lt;li&gt;If allowed can
+    &lt;ul&gt;
+      &lt;li&gt;Upload files&lt;/li&gt;
+      &lt;li&gt;Create directories&lt;/li&gt;
+      &lt;li&gt;Other file system operations&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;FTP command =/= FTP protocol&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;telnet&lt;/code&gt; more exactly uses the low-level FTP protocol&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ftp-the-file-transfer-protocol&quot;&gt;FTP: the file transfer protocol&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Specification: RFC 959&lt;/li&gt;
+  &lt;li&gt;Client/server model
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;client&lt;/em&gt;: side that initiates file transfer (either get or put)&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;server&lt;/em&gt;: remote file storage host
+        &lt;ul&gt;
+          &lt;li&gt;Listening on TCP port 21&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ftp-separate-control-data-connections&quot;&gt;FTP: separate control, data connections&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Client
+    &lt;ul&gt;
+      &lt;li&gt;Open a TCP connection with FTP server&lt;/li&gt;
+      &lt;li&gt;Authorizes itself&lt;/li&gt;
+      &lt;li&gt;Browse remote directory, issue &lt;code class=&quot;highlighter-rouge&quot;&gt;get&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;put&lt;/code&gt; commands&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Server
+    &lt;ul&gt;
+      &lt;li&gt;Listen on TCP port 21&lt;/li&gt;
+      &lt;li&gt;When receives a file transfer command, opens a separate TCP data connection to client&lt;/li&gt;
+      &lt;li&gt;After transferring each file, close the data connecion&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ftp-questions&quot;&gt;FTP Questions&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Is the retrieved data = the data stored in FTP?
+    &lt;ul&gt;
+      &lt;li&gt;Technically, no&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Is it “safe” to use FTP?
+    &lt;ul&gt;
+      &lt;li&gt;Can be made safer using a checksum like MD5 (less secure) or SHA-256&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;electronic-mail-4-major-components&quot;&gt;Electronic Mail: 4 major components&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;user agents&lt;/strong&gt;: aka “mail app”: composing, editing, reading mail messages
+    &lt;ul&gt;
+      &lt;li&gt;Eudora, Outlook, elm, Apple Mail, browser&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;mail servers&lt;/strong&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;mailbox&lt;/em&gt; contains incoming messages for user&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;message queue&lt;/em&gt; of outgoing (to be sent) mail messages&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;simple mail transfer protocol&lt;/strong&gt; (SMTP): transfer email messages from user client to servers and &lt;em&gt;between mail servers&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;mail retrieval protocls&lt;/strong&gt; (multiple)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;example-alice-sends-a-amessage-to-bob&quot;&gt;Example: Alice sends a amessage to Bob&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Alice writes a msg “to” bob@someschool.edu&lt;/li&gt;
+  &lt;li&gt;Alices UA sends message to her mail server; message placed in message queue&lt;/li&gt;
+  &lt;li&gt;The mail server opens TCP connection with Bob’s mail server&lt;/li&gt;
+  &lt;li&gt;Alice’s server sends the msg over the TCP connection&lt;/li&gt;
+  &lt;li&gt;Bob’s mail server places the msg in Bob’s mailbox&lt;/li&gt;
+  &lt;li&gt;Bob invokes his user agent to fetch message&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;simple-mail-transfer-protocol&quot;&gt;Simple Mail Transfer Protocol&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Three phases of transfer
+    &lt;ul&gt;
+      &lt;li&gt;Handshaking (greeting)&lt;/li&gt;
+      &lt;li&gt;Transfer of messages&lt;/li&gt;
+      &lt;li&gt;Closing
+        &lt;ul&gt;
+          &lt;li&gt;Note: this is &lt;em&gt;not&lt;/em&gt; TCP connection close (to be covered in next lectures)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Each phase: command/respone interaction
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;commands&lt;/em&gt;: ASCII text&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;response&lt;/em&gt;: status code and phrase&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Messages must be encoded in 7-bit ASCII&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;smtp-a-few-highlights&quot;&gt;SMTP: A Few Highlights&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;SMTP server uses CRLF.CRLF to determine ned of message&lt;/li&gt;
+  &lt;li&gt;SMTP msg body: use an empty line to separate header and body&lt;/li&gt;
+  &lt;li&gt;Message must be encoded in 7-bit ASCII&lt;/li&gt;
+  &lt;li&gt;Multipurpose Internet Mail Extensions (MIME) to support
+    &lt;ul&gt;
+      &lt;li&gt;Header information or text in non-ASCII charset&lt;/li&gt;
+      &lt;li&gt;Non-text attachment&lt;/li&gt;
+      &lt;li&gt;Message bodies with multiple parts&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-to-send-emails&quot;&gt;How to send emails?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;SMTP servers for the domain normally allow emails only for this domain&lt;/li&gt;
+  &lt;li&gt;Use “providers” SMTP service
+    &lt;ul&gt;
+      &lt;li&gt;Allow custmoers to send email to any domain service&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;other-way-to-send-email&quot;&gt;Other way to send email?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Contact domain’s SMTP directly&lt;/li&gt;
+  &lt;li&gt;Drawbacks?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;securing-channel-to-smtp-server&quot;&gt;Securing channel to SMTP server&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Remember HTTPS&lt;/li&gt;
+  &lt;li&gt;Similar can/should be used for SMTP
+    &lt;ul&gt;
+      &lt;li&gt;Don’t allow others to see your login password&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;is-your-email-secure&quot;&gt;Is your email secure?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;No&lt;/li&gt;
+  &lt;li&gt;Why?
+    &lt;ul&gt;
+      &lt;li&gt;Its just plain text&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;is-there-any-way-to-secure-your-email&quot;&gt;Is there any way to secure your email?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;How to ensure that others know your email is indeed from you?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;securing-email&quot;&gt;Securing Email&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Sign with a valid certificate
+    &lt;ul&gt;
+      &lt;li&gt;Issued by some certification authority
+        &lt;ul&gt;
+          &lt;li&gt;Can check and vouch that it is indeed you who sent the email&lt;/li&gt;
+          &lt;li&gt;Can simply check your own email&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Web-of-Trust certificate (PGP, GPG)
+        &lt;ul&gt;
+          &lt;li&gt;Others can vouch for you&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Encrypt with somebody else’s public key&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;signing-outgoing-emails&quot;&gt;Signing outgoing emails&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Manually
+    &lt;ul&gt;
+      &lt;li&gt;Gmail and most other web-based systems&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Automatically
+    &lt;ul&gt;
+      &lt;li&gt;Apple Mail, Outlook, etc.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;verification&quot;&gt;Verification&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Manually
+    &lt;ul&gt;
+      &lt;li&gt;GPG + paste text and signature&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Automatically
+    &lt;ul&gt;
+      &lt;li&gt;With desktop mail client&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;mail-access-protocols&quot;&gt;Mail access protocols&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;SMTP: deliver mail to receiver’s server&lt;/li&gt;
+  &lt;li&gt;Mail access protocol: retrieval from server
+    &lt;ul&gt;
+      &lt;li&gt;POP: Post Office Protocol [RFC 1939]
+        &lt;ul&gt;
+          &lt;li&gt;Authorization (agent &amp;lt;–&amp;gt; server) and download&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;IMAP: Internet Mail Access Protocol [RFC 1730]
+        &lt;ul&gt;
+          &lt;li&gt;More feature (e.g. multiple folders)&lt;/li&gt;
+          &lt;li&gt;manipulation of stored messages on server&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;HTTP: Gmail, Hotmail, Yahoo! Mail&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 06 Apr 2016 22:26:00 -0700</pubDate>
+        <link>http://jacobnisnevich.github.io/cs118-notes/2016/04/06/lecture_4.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/cs118-notes/2016/04/06/lecture_4.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Lecture 3</title>
+        <description>&lt;h3 id=&quot;plan-for-today&quot;&gt;Plan for Today&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Non-persistent vs persistent HTTP, pipelining&lt;/li&gt;
+  &lt;li&gt;HTTP cookies&lt;/li&gt;
+  &lt;li&gt;HTTP caching&lt;/li&gt;
+  &lt;li&gt;HTTP/2.0: a brief introduction&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;non-persistent-http-response-time&quot;&gt;Non-persistent HTTP: Response Time&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;RTT (round-trip time): time between client sending a small packet to server and receiving reply&lt;/li&gt;
+  &lt;li&gt;Response time for fetching one object:
+    &lt;ul&gt;
+      &lt;li&gt;One RTT to set up TCP connection&lt;/li&gt;
+      &lt;li&gt;One RTT for HTTP request and first byte of HTTP response to reach the client&lt;/li&gt;
+      &lt;li&gt;Object transmission time&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Total = 2 RTT + transmission time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;loading-a-webpage-with-non-persistent-http&quot;&gt;Loading a webpage (with non-persistent HTTP)&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;First client requests and receives the HTML page&lt;/li&gt;
+  &lt;li&gt;If there are images on the page, the client makes more requests for each image&lt;/li&gt;
+  &lt;li&gt;Essentially for a page with 2 images
+    &lt;ul&gt;
+      &lt;li&gt;We would set up 1 TCP connection to get the page&lt;/li&gt;
+      &lt;li&gt;Then set up an additional TCP connection for each image&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;q-how-to-improve&quot;&gt;Q: How to improve?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;What we have now: at most one object is sent over one TCP connection&lt;/li&gt;
+  &lt;li&gt;Could open multiple parallel TCP connections&lt;/li&gt;
+  &lt;li&gt;Could keep TCP connection open, use it to fetch/send multiple objects (persistent HTTP)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;persistent-http&quot;&gt;Persistent HTTP&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;After sending out first object, keep the connection open for a short period, so if there is another reqeust it can use the same connection&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-summary&quot;&gt;HTTP Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Non-persistent HTTP
+    &lt;ul&gt;
+      &lt;li&gt;At most one object is fetched over a single TCP connection&lt;/li&gt;
+      &lt;li&gt;HTTP/1.0 uses nonpersistent TCP connection
+        &lt;ul&gt;
+          &lt;li&gt;Described in RFC 1945&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Persistent HTTP
+    &lt;ul&gt;
+      &lt;li&gt;Multiple objects can be sent over a single TCP connection between client and server&lt;/li&gt;
+      &lt;li&gt;HTTP/1.1 uses persistent connections
+        &lt;ul&gt;
+          &lt;li&gt;Described in RFC 2616&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Either persistent or non-persistent HTTP can set up multiple TCP connections in parallel to speed up data fetching&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;persistent-http-one-more-detail&quot;&gt;Persistent HTTP: one more detail&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Persistent &lt;strong&gt;without&lt;/strong&gt; pipelining:
+    &lt;ul&gt;
+      &lt;li&gt;Client issues new request after previous response has been received&lt;/li&gt;
+      &lt;li&gt;Total delay: one RTT for &lt;em&gt;each&lt;/em&gt; object plus data transfer time&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Persistent &lt;strong&gt;with&lt;/strong&gt; pipelining:
+    &lt;ul&gt;
+      &lt;li&gt;Client sends requests as soon as it sees a referenced object&lt;/li&gt;
+      &lt;li&gt;Total delay: one RTT plus data transfer time for all objects&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;three-factors-in-http-fetching&quot;&gt;Three factors in HTTP fetching&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Use persistent connection or not&lt;/li&gt;
+  &lt;li&gt;Set up parallel connections or not&lt;/li&gt;
+  &lt;li&gt;Use pipelining in connections or not&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-cookies&quot;&gt;HTTP Cookies&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;If HTTP servers are stateless, how come websites (amazon, google, etc.) and services (advertisements) can remember me?
+    &lt;ul&gt;
+      &lt;li&gt;You are being tracked&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Client stores cookies and sends them along with the initial GET request during the next TCP connection with the server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cookies-make-use-of-these-ingredients&quot;&gt;Cookies make use of these ingredients:&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Website:
+    &lt;ul&gt;
+      &lt;li&gt;If an HTTP request does not have a “cookie” field, include a “set-cookie” header line in HTTP response message&lt;/li&gt;
+      &lt;li&gt;Storing in back-end database the cookie with info about the user’s requests&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cookies-usefulness-versus-privacy&quot;&gt;Cookies: usefulness versus privacy&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Cookies can
+    &lt;ul&gt;
+      &lt;li&gt;Bring convenience to you&lt;/li&gt;
+      &lt;li&gt;Bring recommendations&lt;/li&gt;
+      &lt;li&gt;Permit a website to learn a lot about you&lt;/li&gt;
+      &lt;li&gt;Advertising companies can obtain user info across multiple sites&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;web-caching-important&quot;&gt;Web Caching &lt;strong&gt;(IMPORTANT)&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;User sets browser to enable web accesses via cache&lt;/li&gt;
+  &lt;li&gt;Browser sends all HTTP requests to cache&lt;/li&gt;
+  &lt;li&gt;Cache:
+    &lt;ul&gt;
+      &lt;li&gt;If requested object in cache: returns object&lt;/li&gt;
+      &lt;li&gt;Else requests object from the server, then returns object to client&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;why-web-caching&quot;&gt;Why Web Caching&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Reduce load on the origin server
+    &lt;ul&gt;
+      &lt;li&gt;Enables “poor” content providers to effectively deliver content&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Reduce traffic on an institution’s access link&lt;/li&gt;
+  &lt;li&gt;Reduce response time for client request&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;example-without-caching&quot;&gt;Example: without caching&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Assumptions
+    &lt;ul&gt;
+      &lt;li&gt;Average web request rate = 10 req/sec&lt;/li&gt;
+      &lt;li&gt;Average object size = 100,000 bits&lt;/li&gt;
+      &lt;li&gt;RTT from institutional router to any web server and back  500 msec&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Consequences
+    &lt;ul&gt;
+      &lt;li&gt;Utilization on LAN = 10%&lt;/li&gt;
+      &lt;li&gt;Utilization on acces link = 100%
+        &lt;ul&gt;
+          &lt;li&gt;Queueing delay at institutional router: may grow without bound&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Total delay = 500 msec + long queueing delay&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;solution-1-buy-more-bandwidth&quot;&gt;Solution 1: Buy more bandwidth&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Increase bandwidth of access link to 10 Mbps&lt;/li&gt;
+  &lt;li&gt;Consequences:
+    &lt;ul&gt;
+      &lt;li&gt;Can be costly&lt;/li&gt;
+      &lt;li&gt;Utilization on LAN = 10%&lt;/li&gt;
+      &lt;li&gt;Utilization on access link = 10%&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;solution-2-adding-a-local-cache&quot;&gt;Solution 2: Adding a local cache&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Consequences:
+    &lt;ul&gt;
+      &lt;li&gt;Assume hit rate = 0.4: 40% of requests will be satisfied by the data in the cache (delay = 10 msec)&lt;/li&gt;
+      &lt;li&gt;Remaining 60% requests served by origin servers&lt;/li&gt;
+      &lt;li&gt;Utilization of access link reduced to 60% -&amp;gt; much smaller queueing delay (say 30 msec)&lt;/li&gt;
+      &lt;li&gt;Average delay for each packet = 0.6 x (Internet delay + access delay) + 0.4 x (LAN/cache delay) = 0.6 x (5s0 msec) + 0.4 x (10 msec) = 322 msec&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;having-a-local-cache-not-a-free-lunch&quot;&gt;Having a local cache: Not a free lunch&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Need to configure browsers to use the local cache&lt;/li&gt;
+  &lt;li&gt;What if the local cache fails?&lt;/li&gt;
+  &lt;li&gt;What if the cached content is obsolete?&lt;/li&gt;
+  &lt;li&gt;What about secure HTTP connections?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http-conditional-get&quot;&gt;HTTP Conditional GET&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Fetch content only if it has changed since previous fetch&lt;/li&gt;
+  &lt;li&gt;Cache: specify date of cached copy in HTTP request
+    &lt;ul&gt;
+      &lt;li&gt;“If-modified-since: &lt;date&gt;&quot;&lt;/date&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Server: response contains no object if cached copy is up-to-date
+    &lt;ul&gt;
+      &lt;li&gt;“HTTP/1.1 304 Not Modified”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;why-http-20&quot;&gt;Why HTTP 2.0&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP/1.1 with pipelining: not good enough&lt;/li&gt;
+  &lt;li&gt;Some measurement numbers: an average Web application is now
+    &lt;ul&gt;
+      &lt;li&gt;Composed of more than 90 objects&lt;/li&gt;
+      &lt;li&gt;Fetched from more than 15 distinct hosts&lt;/li&gt;
+      &lt;li&gt;Totalling more than 1,300 KB of transferred data
+        &lt;ul&gt;
+          &lt;li&gt;On average each object &amp;lt; 15 KB&lt;/li&gt;
+          &lt;li&gt;Some can be very big&lt;/li&gt;
+          &lt;li&gt;That means some others can be very small&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;some-of-http11s-performance-issues&quot;&gt;Some of HTTP/1.1’s Performance Issues&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Pipelining: not supported by default
+    &lt;ul&gt;
+      &lt;li&gt;Consequence: take on RTT to fetch ech object&lt;/li&gt;
+      &lt;li&gt;Work-around: app developers bundle multiple small objects into a big one&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Head-of-line blocking: HTTP/1.1 handles requests in strict sequential order
+    &lt;ul&gt;
+      &lt;li&gt;A request for a large file, or some dynamic computation, can take time, blocking all requests after it&lt;/li&gt;
+      &lt;li&gt;Work-around: open multiple TCP connections&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Big HTTP header with repetitive information
+    &lt;ul&gt;
+      &lt;li&gt;No way to get around this&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http20-binary-framing&quot;&gt;HTTP/2.0: binary framing&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP requests changed to have two frames:
+    &lt;ul&gt;
+      &lt;li&gt;HEADERS frame&lt;/li&gt;
+      &lt;li&gt;DATA frame&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http20-header-compression&quot;&gt;HTTP/2.0: header compression&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Both browser and server keep a header table until the TCP connection closes&lt;/li&gt;
+  &lt;li&gt;Don’t resend headers that have not changed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http20-frame-message-stream&quot;&gt;HTTP/2.0: frame, message, stream&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Frame: basic communication unit&lt;/li&gt;
+  &lt;li&gt;Message: an HTTP request or response (using one or multiple frames)&lt;/li&gt;
+  &lt;li&gt;Stream: a virtual channel with priority, carrying messages between client and server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http20-multiplexing&quot;&gt;HTTP/2.0 Multiplexing&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Only need a single TCP connection between HTTP clietn and server&lt;/li&gt;
+  &lt;li&gt;The connecton can carry multiple stream&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;http20-performance-improvements&quot;&gt;HTTP/2.0 Performance Improvements&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Reduce HTTP header overhead
+    &lt;ul&gt;
+      &lt;li&gt;Binary encoding&lt;/li&gt;
+      &lt;li&gt;Header compression&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Single TCP connection between each client-server pair
+    &lt;ul&gt;
+      &lt;li&gt;Multiple stream&lt;/li&gt;
+      &lt;li&gt;Each stream: deliver messages between HTTP client–server&lt;/li&gt;
+      &lt;li&gt;Big messages are broken down to multiple frames&lt;/li&gt;
+      &lt;li&gt;Frames from all streams can be interleaved&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;https-secure-http&quot;&gt;HTTPS: Secure HTTP&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Ensure that you’re receiving data from place you think you do&lt;/li&gt;
+  &lt;li&gt;Ensure secrecy of information exchanges&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;https-sites-with-domain-validation-dv-certificates&quot;&gt;HTTPS: Sites with Domain Validation (DV) Certificates&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Contains proof that a public key belongs to a particular public party&lt;/li&gt;
+  &lt;li&gt;Less secure than EV&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;https-sites-with-extended-validation-ev-certificates&quot;&gt;HTTPS: Sites with Extended Validation (EV) Certificates&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;The Certificate Authority (CA) checks the right of the applicant to use a specific domain name PLUS it conducts a THOROUGH vetting of the organization&lt;/li&gt;
+  &lt;li&gt;Can also check certificate manually by clicking the lock icon in a browser&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 04 Apr 2016 22:26:00 -0700</pubDate>
+        <link>http://jacobnisnevich.github.io/cs118-notes/2016/04/04/lecture_3.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/cs118-notes/2016/04/04/lecture_3.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Discussion 1</title>
+        <description>&lt;h3 id=&quot;tentative-schedule&quot;&gt;Tentative Schedule&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Week 1
+    &lt;ul&gt;
+      &lt;li&gt;Intro to project 1&lt;/li&gt;
+      &lt;li&gt;Basic socket programming&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Week 2
+    &lt;ul&gt;
+      &lt;li&gt;HTTP abstraction&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Week 3
+    &lt;ul&gt;
+      &lt;li&gt;Concurrent connections&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Week 4
+    &lt;ul&gt;
+      &lt;li&gt;Midterm review&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Week 5
+    &lt;ul&gt;
+      &lt;li&gt;Project 1 Q&amp;amp;A&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;overview-of-project-1&quot;&gt;Overview of Project 1&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Project webpage
+    &lt;ul&gt;
+      &lt;li&gt;Ready for your to start&lt;/li&gt;
+      &lt;li&gt;More hints and sample code will be added&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Vagrant
+    &lt;ul&gt;
+      &lt;li&gt;A easy way to use virtual machine&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Wireshark
+    &lt;ul&gt;
+      &lt;li&gt;Debug tool: monitor network traffic&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;socket-programming-what-is-a-socket&quot;&gt;Socket Programming: What is a Socket?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;An inter-process communication mechanism
+    &lt;ul&gt;
+      &lt;li&gt;Processes may be on the same host or different hosts&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;An abstract I/O interface to applications
+    &lt;ul&gt;
+      &lt;li&gt;Similar to file I/O&lt;/li&gt;
+      &lt;li&gt;Hide implementation details to low-level layers&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;revisit-file-io-interface&quot;&gt;Revisit File I/O Interface&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Unix/Linux model I/O devices as files
+    &lt;ul&gt;
+      &lt;li&gt;Input: read from a “file”&lt;/li&gt;
+      &lt;li&gt;Output: write into a file”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Each “file” has an identifier: file descriptor
+    &lt;ul&gt;
+      &lt;li&gt;An integer&lt;/li&gt;
+      &lt;li&gt;Three standard fds
+        &lt;ul&gt;
+          &lt;li&gt;0 for stdin&lt;/li&gt;
+          &lt;li&gt;1 for stdout&lt;/li&gt;
+          &lt;li&gt;2 for stderr&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;To interact with I/O devices
+    &lt;ul&gt;
+      &lt;li&gt;Obtain fd&lt;/li&gt;
+      &lt;li&gt;Read from or write into fd&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;readwrite&quot;&gt;Read/Write&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;read() - normal system call
+    &lt;ul&gt;
+      &lt;li&gt;buf: buffer to hold data&lt;/li&gt;
+      &lt;li&gt;count: size of data to read&lt;/li&gt;
+      &lt;li&gt;return: size of data has been read to buffer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;write() - normal system call
+    &lt;ul&gt;
+      &lt;li&gt;buf: buffer to hold data&lt;/li&gt;
+      &lt;li&gt;count: size of data to write&lt;/li&gt;
+      &lt;li&gt;return: size of data has been written to buffer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;socket-is-also-file&quot;&gt;Socket is also “file”&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Model network connection as a file
+    &lt;ul&gt;
+      &lt;li&gt;Read from the file: receive data from the connection&lt;/li&gt;
+      &lt;li&gt;Write into the file: send data to the connection&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;create-sockets&quot;&gt;Create Sockets&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;socket()
+    &lt;ul&gt;
+      &lt;li&gt;domain: specifies the protocol family (L3 network layer)
+        &lt;ul&gt;
+          &lt;li&gt;AF_INET for IPv4 Internet Protocols&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;type: specifies the communcation semantics (L4 network layer)
+        &lt;ul&gt;
+          &lt;li&gt;SOCK_STREAM for TCP&lt;/li&gt;
+          &lt;li&gt;SOCK_DGRAM for UDP&lt;/li&gt;
+          &lt;li&gt;SOCK_RAW for UDP&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;protocol: specifies a particular protocol in a domain to be use&lt;/li&gt;
+      &lt;li&gt;return: sockfd, a file descriptor for the new socket&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bind-address-to-a-socket&quot;&gt;Bind address to a socket&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;bind()
+    &lt;ul&gt;
+      &lt;li&gt;sockfd: which socket to bind&lt;/li&gt;
+      &lt;li&gt;addr: which address to bind&lt;/li&gt;
+      &lt;li&gt;addrlen: size of address&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;network-byte-order&quot;&gt;Network byte order&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Different hardware use different byte ordering
+    &lt;ul&gt;
+      &lt;li&gt;Intel: little endian&lt;/li&gt;
+      &lt;li&gt;Solaris: big endian&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Network byte order is big endian
+    &lt;ul&gt;
+      &lt;li&gt;For two different machines to communicate, conversion is needed&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Code should be portable
+    &lt;ul&gt;
+      &lt;li&gt;Helper functions&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;listen-to-incoming-connections&quot;&gt;Listen to incoming connections&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;listen() - inform OS to listen any incoming connections to this socket
+    &lt;ul&gt;
+      &lt;li&gt;sockfd: which socket is listening&lt;/li&gt;
+      &lt;li&gt;backlog: how many incoming connections can be queued (for the project just put some number)&lt;/li&gt;
+      &lt;li&gt;return: 0 for success, -1 for error&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Does not start a connection&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;initiate-a-connection&quot;&gt;Initiate a connection&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;connect() - try to connect to server
+    &lt;ul&gt;
+      &lt;li&gt;sockfd: socket at local side&lt;/li&gt;
+      &lt;li&gt;addr: address of peer socket&lt;/li&gt;
+      &lt;li&gt;addrlen: size of peer socket address&lt;/li&gt;
+      &lt;li&gt;return: 0 for success, -1 for error&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;accept-a-connection-on-a-socket&quot;&gt;Accept a connection on a socket&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;accpet() - establish a connection and create a new socket for it
+    &lt;ul&gt;
+      &lt;li&gt;sockfd: the listening socket&lt;/li&gt;
+      &lt;li&gt;addr: address of peer socket&lt;/li&gt;
+      &lt;li&gt;addrlen: size of peer socket address&lt;/li&gt;
+      &lt;li&gt;return: new socket descriptor for the accepted connection
+        &lt;ul&gt;
+          &lt;li&gt;The socket used for data transmission&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Socket return by accept is different from the listening socket!&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 01 Apr 2016 22:26:00 -0700</pubDate>
+        <link>http://jacobnisnevich.github.io/cs118-notes/2016/04/01/discussion_1.html</link>
+        <guid isPermaLink="true">http://jacobnisnevich.github.io/cs118-notes/2016/04/01/discussion_1.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Lecture 2</title>
@@ -678,7 +1502,7 @@ Wednesday&lt;/li&gt;
           &lt;li&gt;Determine output link&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
-      &lt;li&gt;Queuing = ### packets in queue X transmission time of each packets&lt;/li&gt;
+      &lt;li&gt;Queuing = # packets in queue X transmission time of each packets&lt;/li&gt;
       &lt;li&gt;Transmission = L / R
         &lt;ul&gt;
           &lt;li&gt;L = packet length (bits)&lt;/li&gt;
